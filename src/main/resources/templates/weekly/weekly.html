@@ -1,0 +1,36 @@
+{{#partial "visual"}}
+<div class="visual title"></div>
+{{/partial}}
+{{#partial "content"}}
+<div id="container">
+    <div class="content-wrap">
+        <div class="working-msg">
+            <strong>열심히 작업중입니다.</strong>
+            <p>조금만 기다려주세요.</p>
+            <div class="btn-wrap full">
+                <a href="/" class="btn border-blue">HOME</a>
+            </div>
+        </div>
+    </div>
+    <!-- //content-wrap -->
+</div>
+{{/partial}}
+
+{{#partial "javascript"}}
+<script >
+    new Vue({
+        el: '#container',
+        data: {
+            temp: {{json temp}},
+            params: {}
+        },
+        methods: {
+        },
+        mounted: function () {
+            console.log("this.temp", this.temp)
+        }
+    })
+</script>
+{{/partial}}
+
+{{> layout }}

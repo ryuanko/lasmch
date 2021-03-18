@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lasmch.youtube.dao.YoutubeDao">
+
+
+  <sql id="selectWhere">
+    SELECT
+    ID, YOUTUBE_NAME, YOUTUBE_URL, UPDATE_DATE, UPDATE_NAME, YOUTUBE_TYPE
+    FROM T_YOUTUBE
+    where 1=1
+
+    <if test="youtube_name != null and youtube_name.trim() != ''">
+      AND YOUTUBE_NAME = #{youtube_name}
+    </if>
+    <if test="youtube_url != null and youtube_url.trim() != ''">
+      AND YOUTUBE_URL = #{youtube_url}
+    </if>
+    <if test="update_date != null and update_date.trim() != ''">
+      AND UPDATE_DATE = #{update_date}
+    </if>
+    <if test="youtube_type != null and youtube_type.trim() != ''">
+      AND YOUTUBE_TYPE = #{youtube_type}
+    </if>
+  </sql>
+
+  <select id="_select"  parameterType="Map" resultType="com.lasmch.youtube.domain.Youtube">
+    <include refid="selectWhere" />
+    ORDER BY RNUM DESC
+    <include refid="Pager.include" />
+  </select>
+
+  <!-- 리스트 총값 -->
+  <select id="selectCount" parameterType="Map" resultType="int">
+    SELECT COUNT(1) FROM (
+    <include refid="selectWhere" />
+    )
+  </select>
+
+  <update id="_update" parameterType="Map">
+    UPDATE T_YOUTUBE SET
+    YOUTUBE_NAME = #{youtube_name},
+    YOUTUBE_URL  = #{youtube_url},
+    UPDATE_DATE  = #{update_date},
+    UPDATE_NAME  = #{update_name},
+    YOUTUBE_TYPE = #{youtube_type}
+    WHERE ID = #{id}
+  </update>
+
+  <insert id="_insert" parameterType="Map">
+  INSERT INTO T_YOUTUBE
+  (ID, YOUTUBE_NAME, YOUTUBE_URL, UPDATE_DATE, UPDATE_NAME, YOUTUBE_TYPE)
+  VALUES ((select max(nvl(id, 0)) + 1), #{youtube_name}, #{youtube_url}, now(), #{update_name}, #{youtube_type});
+  </insert>
+
+  <delete id="_delete" parameterType="Map">
+  DELETE FROM T_YOUTUBE
+  WHERE ID = #{ID}
+  </delete>
+
+</mapper>

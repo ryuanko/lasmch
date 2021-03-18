@@ -1,0 +1,62 @@
+<div class="pagenate custom">
+
+  {{#with navigation}}
+
+  {{#if hasBefore }}
+  <a onclick="formSubmit(1, '{{keyword}}')" class="btn-first">처음</a>
+  <a onclick="formSubmit({{math currentPage '-' 1}}, '{{keyword}}', 'btn-prev')" class="btn-prev" >이전</a>
+  {{/if~}}
+
+
+  {{#pages~}}
+  <a onclick="formSubmit({{page}}, '{{keyword}}')" {{#eq currentPage page}} class="on last-page" {{/eq}}>{{page}}</a>
+  {{/pages~}}
+
+
+  <span class="total-page cp" onclick="formSubmit({{totalPage}}, '{{keyword}}')">/{{totalPage}}</span>
+
+
+  {{#if hasNext}}
+  <a onclick="formSubmit({{math endRange '+' 1}}, '{{keyword}}', 'btn-next')" class="btn-next cp">다음페이지</a>
+  <a onclick="formSubmit({{totalPage}}, '{{keyword}}')" class="btn-last cp">마지막</a>
+  {{/if~}}
+  {{endRange}}
+
+  {{/with~}}
+</div>
+<script>
+    function formSubmit(page, parameter, type){
+      var params = {}
+      var form = document.createElement("form");
+      form.setAttribute("method", "POST");
+      form.setAttribute("action", window.location.pathname);
+      form.setAttribute("target", "_self");
+
+      params = commonGetUrlParams(parameter)
+
+      var totalPage = Number('{{navigation.totalPage}}')
+      params.page = page > totalPage ? totalPage : page
+
+      // 모바일인 경우 1 페이지씩 검색
+      if (window.outerWidth < 767) {
+        if (!_.isEmpty(type)&& type === 'btn-next') {
+          params.page = {{currentPage}} + 1
+        } else if (!_.isEmpty(type)&& type === 'btn-prev') {
+          params.page = {{currentPage}} - 1
+        }
+      }
+      //히든으로 값을 주입시킨다.
+      for(var key in params) {
+          var hiddenField = document.createElement("input");
+          if (!_.isEmpty(String(params[key]))) {
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+            form.appendChild(hiddenField);
+          }
+      }
+
+      document.body.appendChild(form);
+       form.submit();
+    }
+</script>
