@@ -1,0 +1,195 @@
+{{#partial "bodyClass"}}class="main"{{/partial}}
+{{#partial "content"}}
+<div id="container">
+    <h2>예배 영상</h2>
+    <div class="youtube-list">
+        <ul class="youtube-section-title">
+            <li><h3><a  :class="{on: params.is_view1}" @click="showYoutube('is_view1')">주일예배 동영상</a></h3></li>
+            <li><h3><a  :class="{on: params.is_view2}" @click="showYoutube('is_view2')">금요예배 동영상</a></h3></li>
+        </ul>
+        <ul class="youtube-section">
+            <li v-show="params.is_view1" class="youtube-li">
+                <h3><a >주일예배 동영상</a></h3>
+                <ul class="list">
+                    <iframe src="https://www.youtube.com/embed/IWv1LoMs2kc"
+                            height="300px"
+                            width="100%"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                    </iframe>
+                </ul>
+            </li>
+            <li v-show="params.is_view2" class="youtube-li">
+                <h3><a >금요예배 동영상</a></h3>
+                <ul class="list">
+                    <iframe
+                            src="https://www.youtube.com/embed/D3MBQBFVv5A"
+                            height="300px"
+                            width="100%"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                    </iframe>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <h2>교회안내</h2>
+    <div class="main-list">
+        <ul class="section-title">
+            <li><h3><a  class="on">교회소식</a></h3></li>
+            <li><h3><a >예배시간</a></h3></li>
+            <li><h3><a >NOTICE</a></h3></li>
+        </ul>
+        <ul class="section">
+            <li>
+                <h3><a >교회소식</a></h3>
+                <ul class="list">
+                    <li class="new"><a >교회 홈페이지 오픈 ^^</a></li> <!-- 새글: class="new" -->
+                    <li><a >새 글이 없습니다.</a></li> <!-- 읽은 게시글 : class="read" -->
+                </ul>
+            </li>
+            <li>
+                <h3><a >예배시간</a></h3>
+                <ul class="list">
+                    <li><a >주일예배 - 오전 10:45</a></li>
+                    <li><a >새벽예배 - 매일 오전 5:30</a></li>
+                    <li><a >금요기도회 - 오후 7:30</a></li>
+                    <li><a >온라인 성경공부 – 커피브레이크(TBA)</a></li><!--class="new"-->
+                    <li><a >EM 영어 예배 -</a></li>
+                </ul>
+            </li>
+            <li>
+                <h3><a >NOTICE</a></h3>
+                <ul class="list">
+                    <li><a >새 글이 없습니다.</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <h2>목사님 인사말</h2>
+    <div class="reverend">
+        <div>
+            <img src="/assets/img/lasmch/reverend.jpg">
+            <p>
+                저희 교회 홈페이지를 방문해 주신 여러분들께 감사 드립니다.<br>
+                주님의 은혜와 성령님의 인도하심이 충만하시길 기원합니다.<br>
+                엘에이성문성결교회 (Holy Gate Evangelical Holiness Church) 는 하나님의 뜻과 계획에 의해 라크라센타에 세워진 교회로서, 미주성결교회 (Korean
+                Evangelical Church of America) 에 속해 있으며, 성경과 삼위일체의 하나님을 전적으로 믿는 복음주의 신앙에 근거한 교회입니다.<br>
+                잘하면 잘한다고 칭찬하시고, 못하면 힘내라고 격려하시는 아버지 하나님의 인도하심이 충만한 교회가 되도록 기도해 주시기 바랍니다.<br>
+                주님의 따뜻한 사랑과 은혜가 충만한 성문성결교회에 여러분들을 초대합니다.<br>
+            </p>
+            <p style="text-align: right">
+                담임목사 김광수
+            </p>
+        </div>
+    </div>
+
+    <h2>QUICK MENU</h2>
+    <div class="quick-wrap">
+        <div class="quick-view-more">
+            <!--        <button type="button" id="quick-trigger">전체보기 +</button>-->
+            <div id="quick_menu_layer">
+                <div class="layer_head">
+                    <!--            <h3>메뉴 전체보기</h3>-->
+                    <button type="button" id="quick-closer">닫기</button>
+                </div>
+                <ul>
+                    <li class="list01"><a >최근주요 <span>지시사항</span></a></li>
+                    <li class="list03"><a >객실승무본부 <span>중점 강조사항</span></a></li>
+                    <li class="list05"><a >지급신청</a></li>
+                    <li class="list07"><a >휴가신청</a></li>
+                    <li class="list09"><a >SKD SWAP</a></li>
+                    <li class="list02"><a >REFERNCES</a></li>
+                    <li class="list04"><a >Q&amp;A</a></li>
+                    <li class="list06"><a >VOICE OF <span>CUSTOMER</span></a></li>
+                    <li class="list08"><a >BOARD</a></li>
+                    <li class="list10"><a >고충상담</a></li>
+                </ul>
+            </div>
+        </div>
+        <ul class="quick-list">
+            <li class="list04"><a href="/weekly">교회안내</a></li>
+            <li class="list09"><a href="/weekly">예배시간</a></li>
+            <li class="list02"><a href="/weekly">주보</a></li>
+            <li class="list08"><a href="/weekly">교육부</a></li>
+            <li class="list07"><a href="/weekly">훈역사역</a></li>
+            <li class="list05"><a href="/weekly">교회앨범</a></li>
+        </ul>
+        <div id="google-map1" class="quick-search"></div>
+    </div>
+    <div id="google-map2" class="google-map"></div>
+
+</div>
+{{/partial}}
+
+{{#partial "javascript"}}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-R-MVFMHBfqvCUYbZ1yOps736RzGjtOE&callback=initMap&libraries=&v=weekly" async></script>
+<script >
+    var map;
+    var map2;
+    function initMap() {
+        console.log('initMap')
+        map = new google.maps.Map(document.getElementById('google-map1'), {
+            center: {lat: 34.2166151646264, lng: -118.24025420559808},
+            zoom: 15
+        });
+
+        map2 = new google.maps.Map(document.getElementById('google-map2'), {
+            center: {lat: 34.2166151646264, lng: -118.24025420559808},
+            zoom: 15
+        });
+    }
+
+    new Vue({
+        el: '#container',
+        data: {
+            temp: {{json params}},
+            params: {
+                is_view1: true,
+                is_view2: false,
+                last_view: 'is_view1'
+            }
+        },
+        methods: {
+            showYoutube(type) {
+                if ( $(window).width() < 768 ) {
+                    if (_.isEmpty(type)) {
+                        type = 'is_view1'
+                    }
+                    this.params.is_view1 = false
+                    this.params.is_view2 = false
+                    this.params[type] =  true
+                    this.last_view = type
+                }
+            },
+            resizeCheck() {
+                const self = this
+                $(window).resize(function(){
+                    if ( $(window).width() < 768 ) {
+                        self.showYoutube(self.last_view)
+                    } else {
+                        self.params.is_view1 = true
+                        self.params.is_view2 = true
+                    }
+                });
+            }
+        },
+        mounted: function () {
+            this.$nextTick(()=> {
+                this.resizeCheck()
+                if ( $(window).width() > 750 ) {
+                        console.log("여기")
+                    this.params.is_view1 = true
+                    this.params.is_view2 = true
+                }
+            })
+            console.log(this.params, this.temp)
+        }
+    })
+</script>
+{{/partial}}
+{{> layout }}

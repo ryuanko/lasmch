@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta http-equiv="Cache-Control" content="No-Cache">
+    <meta http-equiv="Pragma" content="No-Cache">
+    <title>MAIN 2021-03-17 17:30</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/vendor/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" href="/assets/css/common.css">
+    <link rel="stylesheet" href="/assets/css/content.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+    <link rel="stylesheet" href="/assets/vendor/slick/slick.css">
+    <link rel="stylesheet" href="/assets/vendor/slick/slick-theme.css">
+    <script type="text/javascript" src="/assets/vendor/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/vendor/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/assets/vendor/slick/slick.min.js"></script>
+    <script type="text/javascript" src="/assets/script/common.js"></script></script>
+
+    <script type="text/javascript" src="/assets/vendor/lodash/lodash.min.js"></script>
+    <script type="text/javascript" src="/assets/vendor/vue/vue.min.js"></script>
+    <script type="text/javascript" src="/assets/vendor/axios/axios.min.js"></script>
+    <script type="text/javascript" src="/assets/vendor/handlebars/handlebars.runtime-v4.7.6.js"></script>
+
+</head>
+<body {{#block "bodyClass"}}{{/block}}>
+
+{{> gnb }}
+
+{{> menu }}
+
+{{#block "visual"}}
+{{> visual}}
+{{/block}}
+
+{{#block "content"}}{{/block}}
+
+<div class="loading">
+    <p class="loader"></p>
+</div>
+<div class="dimmed"></div>
+<div class="layer-wrap">
+    <div id="alertpop" class="pop-layer alert">
+        <div class="pop-container bottom-btn">
+            <div class="pop-conts" id="alert-pop-msg"></div>
+            <div class="pop-btn fixed">
+                <button type="button" class="half close" id="layer_confirm_cancel">취소</button>
+                <button type="button" class="half close" id="layer_confirm_ok">확인</button>
+                <button type="button" class="full close" id="layer_alert_ok">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{> footer }}
+<button class="btn-top">top</button>
+{{#block "javascript"}}{{/block}}
+</body>
+</html>

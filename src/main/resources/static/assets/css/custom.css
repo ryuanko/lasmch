@@ -1,0 +1,210 @@
+a{cursor: pointer}
+
+.lasmch-logo {color: white; font-size: 28px}
+.quick-search {height: 350px; margin-top: 0px; padding: 0}
+
+.main #container h2 {margin-top: 50px}
+/* 메뉴 상단 고정 */
+#gnb {background-image: linear-gradient(139deg, #9e3d6f 18%, #8ef919 117%)}
+#gnb.fixed {opacity: 0.9}
+/* --------- visual  -------- */
+.main .visual {padding-bottom: 0px; height: auto}
+.visual .slider {padding-bottom: 100px}
+.visual .slider .slick-active {opacity: 1}
+.visual .slider .slick-slide {opacity: 1}
+.slick-slide img {height: 500px; width: 100%;}
+.visual.title {background-image: linear-gradient(139deg, #9e3d6f 18%, #8ef919 117%)}
+
+/* ---- youtube ---- */
+.youtube-section-title {display: none}
+.youtube-list {margin-bottom: 10px;}
+.youtube-list h3 {
+    margin-bottom: 24px;
+    color: #333;
+    font-size: 2.4rem;
+    line-height: 3.6rem;
+}
+.youtube-list h3:after {
+    display: inline-block;
+    content: '';
+    width: 8px;
+    height: 12px;
+    margin-bottom: 3px;
+    margin-left: 16px;
+    background: url(../../assets/img/common/btn_more.png) no-repeat 0 0;
+    background-size: 100% auto;
+}
+
+.youtube-li {
+    display: inline-block;
+    width: -webkit-calc((99% - 98px) / 2);
+    margin-top: 64px;
+    margin-right: 49px;
+}
+
+/* 목사님 인사말*/
+.reverend {margin-top: 20px; min-height: 200px;}
+.reverend > div> p {font-size: 16px;}
+.reverend div {
+    margin-top: 20px
+}
+.reverend div img {
+    float: left;
+    margin-right: 30px;
+    height: 200px;
+}
+
+/* 기타 작업중 */
+.working-msg {
+    margin: 110px 0 30px;
+    padding-top: 160px;
+    background: url(/assets/img/lasmch/work.png) no-repeat center 0;
+    background-size: 240px auto;
+    text-align: center;
+}
+.working-msg strong {
+    display: block;
+    color: #333;
+    font-size: 3rem;
+    line-height: 4.4rem;
+}
+
+.working-msg .btn-wrap.full {margin-top: 30px;}
+
+
+/* 구글 지도 */
+.google-map {display: none}
+
+/* pc */
+@media screen and (max-width: 1919px) {
+}
+
+/* 태블릿 */
+@media screen and (max-width: 1366px) {
+
+    /* slide */
+    .main .visual {padding-top: 0px;}
+    .quick-search {margin-top: 80px;}
+
+    /* --- side menu ---*/
+    .menu-full .btn-close {top: 32px;}
+    .lasmch-logo {color: #3a3a3a; font-weight: bold; margin-left: 80px}
+    .lasmch-logo img {
+        height: 50px;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+    }
+    .menu-full {width: 400px !important;}
+
+}
+
+@media screen and (max-width: 1024px) {
+
+}
+
+@media screen and (max-width: 920px) {
+}
+
+/* tablet Portrait */
+@media screen and (max-width: 767px) {
+
+
+
+    /* --- slid menu ---*/
+    .menu-full {width: 70% !important;}
+    .menu-full .btn-close {top: 52px;  background-size:20px auto}
+    .lasmch-logo img {top: 40px;}
+
+
+    .top-banner .bnr-area span {
+        display: block;
+        font-size: 1.4rem;
+        line-height: 5rem;
+        text-overflow: ellipsis;
+        white-space: nowrapc;
+        overflow: hidden;
+    }
+    .top-banner .bnr-area strong {display: none;}
+
+    /* ---- slider ---- */
+    .visual .slider {padding-bottom: 50px}
+    .visual .slider .slick-slide {
+        padding-left: 45px;
+    }
+    .visual .slider a {
+        width: 90%;
+        max-width: none;
+    }
+    .slick-slide img {height: 300px;}
+
+    /* ---- youtube ---- */
+
+    .youtube-list {
+        padding: 19px 0 0 30px;
+        background: #fff;
+        box-sizing: border-box;
+        min-height: 420px;
+        max-height: 500px;
+    }
+    .youtube-list, .youtube-list h3 {
+        margin-top: 0;
+    }
+    .youtube-section-title {
+        display: block !important;
+    }
+
+    .youtube-section-title li{
+        display: inline-block;
+        margin-left: 24px;
+    }
+
+    .youtube-section-title h3 {
+        font-size: 1.5rem;
+        line-height: 3.6rem;
+    }
+
+    .youtube-section-title h3:after {
+        display: none;
+    }
+    .youtube-section-title h3 a {
+        padding-bottom: 8px;
+    }
+    .youtube-section-title .on {
+        color: #0082ee;
+        border-bottom: 2px solid #0082ee;
+    }
+    .youtube-li {
+        display:block;
+        width: 92%;
+        margin-top: 10px;
+    }
+    .youtube-li h3 {display: none}
+
+
+    /* 목사님 인사말*/
+    .reverend {margin-top: 10px; padding: 20px 30px; background: white}
+    .reverend > div> p {font-size: 14px;}
+
+    /* 퀵메뉴 */
+    .quick-wrap{margin-top: 10px}
+
+    /* google 지도*/
+    .google-map {
+        display:block; margin-top: 10px;
+        padding: 20px 30px; background: white;
+        height: 300px;
+        margin-bottom: 10px;
+    }
+
+}
+
+/* phone */
+@media screen and (max-width: 460px) {
+    .slider .slider-img {height: 158px; width: 100%;}
+}
+
+/* phone */
+@media screen and (max-width: 360px) {
+    .slider .slider-img {height: 158px; width: 100%;}
+}
