@@ -1,6 +1,6 @@
 {{#partial "visual"}}
 <div class="visual title">
-    <h2>BOARD list</h2>
+    <h2>YouTube 관리</h2>
     <button class="btn-print">print</button>
 </div>
 {{/partial}}
@@ -9,7 +9,7 @@
 <div id="container">
     <div class="list-search">
         <!-- ====================================================== 일반 ====================================================== -->
-        <div v-else class="search-box select-input" :class="{'in-period': params.selOption === 'period'}">
+        <div class="search-box select-input" :class="{'in-period': params.selOption === 'period'}">
             <p class="group">
                 <select title="카테고리 선택" v-model="params.selOption" @change="changeHandler()">
                     <option value="">ALL</option>
@@ -34,7 +34,6 @@
 
     <div class="content-wrap">
         <div class="tbl-wrap">
-            {{{{raw}}}}
             <table class="board-list">
                 <caption>BOARD LIST</caption>
                 <colgroup>
@@ -55,21 +54,16 @@
                 <tr v-for="i in list">
                     <td class="subject cp" @click="commonFormSubmit(base_url+'/view', i, keywords)">
                         <a>
-                            <template v-for="cate in cate_list">
-                                <span v-if="cate.value === i.guboon" class="cate" :class="_.isEmpty(cate.class)? '': cate.class">{{cate.name}}</span>
-                            </template>
-
-                            <span v-if="_.some([1000000, 1000001, 1000002, 1000003], function(id) {return id === i.articleid})"  v-html="i.title"></span>
-                            <span v-else v-text="i.title"></span>
+                            <span class="cate" v-text="i.youtube_type"></span>
+                            <span v-text="i.youtube_name"></span>
                         </a>
                     </td>
-                    <td v-else >{{i.penname}}</td>
-                    <td>{{i.crdate_d}}</td>
-                    <td class="read">{{i.hit}}</td>
+                    <td v-text="i.update_name"></td>
+                    <td v-text="i.update_date"></td>
+                    <td class="read" v-text="i.hit"></td>
                 </tr>
                 </tbody>
             </table>
-            {{{{/raw}}}}
         </div>
         <!-- //tbl-wrap -->
 
@@ -115,7 +109,10 @@
                 commonFormSubmit(this.base_url, this.params) // common.js
             },
         },
-        created: function () {},
+        created: function () {
+            console.log('list', this.list)
+
+        },
     })
 </script>
 {{/partial}}

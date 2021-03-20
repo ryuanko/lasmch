@@ -1,0 +1,193 @@
+{{#partial "visual"}}
+<div class="visual title">
+    <h2>예배 영상</h2>
+</div>
+{{/partial}}
+
+{{#partial "content"}}
+<div id="container">
+    <div class="content-wrap">
+        <div class="tbl-wrap">
+            <table class="board-write">
+                <caption>BOARD WRITE</caption>
+                <colgroup>
+                    <col style="width: 25%;">
+                    <col style="width: auto;">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th scope="row"><label for="name">Name</label></th>
+                    <td><input type="text" id="name" v-model="params.penname" :readonly="params.code_c === 'FRM'? false:true"></td>
+                </tr>
+                <!-- ================== category ======================== -->
+                <tr v-if="cate_list.length > 0">
+                    <th scope="row"><label for="category">Category</label></th>
+                    <td>
+                        <select id="category" v-model="params.guboon" :disabled="isCategory">
+                            <option value="000">선택</option>
+                            <option v-for="cate in cate_list" :value="cate.value" v-text="cate.name"></option>
+                        </select>
+                    </td>
+                </tr>
+                <!-- =================================================== -->
+                <tr>
+                    <th scope="row"><label for="subject">Subject</label></th>
+                    <td><input type="text" id="subject" class="subject" placeholder="제목을 입력하세요." v-model="params.title"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Contents</th>
+                    <td>
+                        <div class="editor-area" id="editor">
+                            <!--cross editor-->
+                            <div id="crossParent" class="container">
+                                <textarea id="desc" v-model="params.description"></textarea>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Attach Files</th>
+                    <td>
+                        <fileupload-template
+                                ref="fileTemplate"
+                                :params="params"
+                        ></fileupload-template>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="btn-wrap double">
+            <a href="#none" class="btn border" @click="goBack()">CANCEL</a>
+            <a href="#none" class="btn blue" @click="setData()">SAVE</a>
+        </p>
+    </div>
+    <!-- //content-wrap -->
+</div>
+<!-- //container -->
+{{/partial}}
+
+{{#partial "javascript"}}
+<script src="/components/fileupload.js"></script>
+<script>
+    var app = new Vue({
+        el: '#container',
+        mixins: [commonMixin], //  vue common mixin js
+        data: {
+            params: {
+                code_c: '{{code_c}}',
+                penname: '',
+                title: '',
+                description: '',
+                guboon: '000'
+            },
+            keyword: {{json keyword}},
+    session: {{json session}},
+    parent_data: {{json parent_data}},
+    parent_data_full: {{json parent_data_full}},
+    base_url: location.pathname.substring(0,8),
+        cate_list: [],
+        isCategory: false
+    },
+    methods: {
+        goBack: function () {
+            commonFormSubmit(this.base_url, {} , this.keyword)
+        },
+        setData: function () {
+            if (!this.valid()) return
+            var data = _.merge(this.params, this.parent_data);
+
+            var formData = new FormData();
+            // ------ 파일 첨부 부분 -----------
+            // component에있는 파일 append
+            this.$refs.fileTemplate.$refs.uploadFile.forEach(function(i) {
+                if (i.files.length > 0) {
+                    formData.append("upfile", i.files[0]);
+                }
+            })
+            // ------------------------------
+
+            _.keys(data).forEach(function(i){
+                formData.append(i, data[i])
+            })
+
+            axios.post('/opn',formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(function(res){
+                if (res.status == 200) {
+                    app.goBack()
+                }
+            })
+        },
+        valid: function () {
+            var msg = ''
+            this.params.description = CrossEditor_getValue()
+
+            if (_.trim(this.params.penname) === '') {
+                msg = 'Name를 입력해 주세요.'
+            } else if (_.trim(this.params.title) === '') {
+                msg = 'Subject를 입력해 주세요.'
+            } else if (_.trim(this.params.description) === '') {
+                msg = 'Contents를 입력해 주세요.'
+            } else if (this.cate_list.length > 0 && _.trim(this.params.guboon) === '000') {
+                msg = 'Category 입력해 주세요.'
+            }
+
+            if (this.params.code_c === 'SWP') {
+                if (getByteB(this.params.penname) > 18) {
+                    msg = 'Name의 값이 너무 큽니다.'
+                } else if (_.isEmpty(this.params.duty_c)) {
+                    msg = 'Duty Code 입력해 주세요.'
+                }
+            }
+
+            if (msg != '') {
+                alertPopup(msg)
+                return false
+            }
+            return true
+        },
+        init: function () {
+            initCrossEditor(this.params.code_c) // common.js function
+
+            if (this.params.code_c != 'FRM') {
+                this.params.penname = this.session.nickname
+            }
+
+            this.params.emp_n = this.session.username
+            this.cate_list = isCategory(this.params.code_c) // common.js function
+
+            // 답글인경우 부모값 셋팅
+            if (!_.isEmpty(this.parent_data_full)) {
+                var desc = '<br/><br/>----------------------------------------[작성자 정보]---------------------------------------- <br/>'
+                desc += 'Writer : '+ this.parent_data_full.penname + '<br/>'
+                desc += 'Update Date : ' + this.parent_data_full.update_d + '<br/>'
+                desc += '----------------------------------------[본문 내용]------------------------------------------ <br/>'
+                desc += this.parent_data_full.description
+                this.params.description = desc
+
+                // SWP 답글인 경우 제외
+                if (this.params.code_c != 'SWP') {
+                    this.params.guboon = this.parent_data_full.guboon
+                    this.isCategory = true
+                }
+            }
+
+            if (this.params.code_c === 'SWP') {
+                if (_.isEmpty(this.parent_data)) {
+                    this.cate_list = isCategory(this.params.code_c).filter(function (i) { return i.value === '001'})
+                } else {
+                    this.cate_list = []
+                }
+            }
+        }
+    },
+    mounted: function () {
+        this.$nextTick(function() {
+            this.init()
+        })
+    },
+    });
+</script>
+{{/partial}}
+
+{{> layout vuejs=true namo=true }}

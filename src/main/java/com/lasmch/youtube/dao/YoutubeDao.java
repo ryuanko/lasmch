@@ -9,4 +9,5 @@ import java.util.Optional;
 @Mapper
 public interface YoutubeDao extends IDaoProvider {
     Optional<Youtube> getUserInfo(String id);
+    int maxId();
 }

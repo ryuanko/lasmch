@@ -1,18 +1,32 @@
 a{cursor: pointer}
 
-.lasmch-logo {color: white; font-size: 28px}
+.lasmch-logo {color: #333; font-size: 28px}
+/* --- nav --- */
+.nav > li + li{margin-left: 70px}
+.nav > li > a {color: #333; font-size: 23px}
+
+#gnb .myinfo {color: #333}
+#gnb h1 span {color: #333; text-align: center}
+#gnb h1 img {
+    width: 41px;
+    position: absolute;
+    left: -44px;
+    top: -3px;
+}
+
+
 .quick-search {height: 350px; margin-top: 0px; padding: 0}
 
 .main #container h2 {margin-top: 50px}
 /* 메뉴 상단 고정 */
-#gnb {background-image: linear-gradient(139deg, #9e3d6f 18%, #8ef919 117%)}
+
 #gnb.fixed {opacity: 0.9}
 /* --------- visual  -------- */
-.main .visual {padding-bottom: 0px; height: auto}
+.main .visual {height: auto}
 .visual .slider {padding-bottom: 100px}
 .visual .slider .slick-active {opacity: 1}
 .visual .slider .slick-slide {opacity: 1}
-.slick-slide img {height: 500px; width: 100%;}
+.slick-slide img {height: 500px; width: 1200px; margin: 0 auto; border-radius: 20px}
 .visual.title {background-image: linear-gradient(139deg, #9e3d6f 18%, #8ef919 117%)}
 
 /* ---- youtube ---- */
@@ -41,6 +55,9 @@ a{cursor: pointer}
     margin-top: 64px;
     margin-right: 49px;
 }
+.youtube-li ul iframe {
+    border-radius: 20px;
+}
 
 /* 목사님 인사말*/
 .reverend {margin-top: 20px; min-height: 200px;}
@@ -52,13 +69,14 @@ a{cursor: pointer}
     float: left;
     margin-right: 30px;
     height: 200px;
+    border-radius: 20px;
 }
 
 /* 기타 작업중 */
 .working-msg {
     margin: 110px 0 30px;
     padding-top: 160px;
-    background: url(/assets/img/lasmch/work.png) no-repeat center 0;
+    background: url(../../assets/img/lasmch/work.png) no-repeat center 0;
     background-size: 240px auto;
     text-align: center;
 }
@@ -81,9 +99,19 @@ a{cursor: pointer}
 
 /* 태블릿 */
 @media screen and (max-width: 1366px) {
+    #gnb .myinfo {color: white}
+    #gnb .myinfo .search {
+        background: url(../../assets/img/common/btn_searchW.png) no-repeat 0 0;
+        margin-right: 30px;
+        padding: 20px;
+        background-position: center center;
+        background-size: 24px auto;
+    }
+
+    .visual {background-image: linear-gradient(139deg, #9e3d6f 18%, #8ef919 117%)}
+    .slick-slide img {width: 100%; border-radius: 0px}
 
     /* slide */
-    .main .visual {padding-top: 0px;}
     .quick-search {margin-top: 80px;}
 
     /* --- side menu ---*/
@@ -109,37 +137,49 @@ a{cursor: pointer}
 /* tablet Portrait */
 @media screen and (max-width: 767px) {
 
-
+    #gnb .myinfo .search {
+        background: url(../../assets/img/common/btn_searchW.png) no-repeat 0 0;
+        width: 16px;
+        height: 16px;
+        margin-right: 0;
+        background-size: 16px auto;
+        background-position: center center;
+    }
 
     /* --- slid menu ---*/
-    .menu-full {width: 70% !important;}
-    .menu-full .btn-close {top: 52px;  background-size:20px auto}
-    .lasmch-logo img {top: 40px;}
-
-
-    .top-banner .bnr-area span {
-        display: block;
-        font-size: 1.4rem;
-        line-height: 5rem;
-        text-overflow: ellipsis;
-        white-space: nowrapc;
-        overflow: hidden;
+    .menu-full {
+        width: 70% !important;
     }
-    .top-banner .bnr-area strong {display: none;}
+
+    .menu-full .btn-close {
+        top: 52px;
+        background-size: 20px auto
+    }
+
+    .lasmch-logo img {
+        top: 40px;
+    }
 
     /* ---- slider ---- */
-    .visual .slider {padding-bottom: 50px}
+    .visual .slider {
+        padding-bottom: 100px
+    }
+
     .visual .slider .slick-slide {
         padding-left: 45px;
     }
+
     .visual .slider a {
         width: 90%;
         max-width: none;
     }
-    .slick-slide img {height: 300px;}
+
+    .slick-slide img {
+        height: 300px;
+        width: 100%
+    }
 
     /* ---- youtube ---- */
-
     .youtube-list {
         padding: 19px 0 0 30px;
         background: #fff;
@@ -147,16 +187,18 @@ a{cursor: pointer}
         min-height: 420px;
         max-height: 500px;
     }
+
     .youtube-list, .youtube-list h3 {
         margin-top: 0;
     }
+
     .youtube-section-title {
         display: block !important;
     }
 
-    .youtube-section-title li{
+    .youtube-section-title li {
         display: inline-block;
-        margin-left: 24px;
+        margin-right: 24px;
     }
 
     .youtube-section-title h3 {
@@ -167,32 +209,49 @@ a{cursor: pointer}
     .youtube-section-title h3:after {
         display: none;
     }
+
     .youtube-section-title h3 a {
         padding-bottom: 8px;
     }
+
     .youtube-section-title .on {
         color: #0082ee;
         border-bottom: 2px solid #0082ee;
     }
+
     .youtube-li {
-        display:block;
+        display: block;
         width: 92%;
         margin-top: 10px;
     }
-    .youtube-li h3 {display: none}
+
+    .youtube-li h3 {
+        display: none
+    }
 
 
     /* 목사님 인사말*/
-    .reverend {margin-top: 10px; padding: 20px 30px; background: white}
-    .reverend > div> p {font-size: 14px;}
+    .reverend {
+        margin-top: 10px;
+        padding: 20px 30px;
+        background: white
+    }
+
+    .reverend > div > p {
+        font-size: 14px;
+    }
 
     /* 퀵메뉴 */
-    .quick-wrap{margin-top: 10px}
+    .quick-wrap {
+        margin-top: 10px
+    }
 
     /* google 지도*/
     .google-map {
-        display:block; margin-top: 10px;
-        padding: 20px 30px; background: white;
+        display: block;
+        margin-top: 10px;
+        padding: 20px 30px;
+        background: white;
         height: 300px;
         margin-bottom: 10px;
     }

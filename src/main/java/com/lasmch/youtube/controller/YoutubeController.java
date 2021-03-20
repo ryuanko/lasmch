@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/Youtube")
+@RequestMapping("/youtube")
 @Slf4j
 @Transactional
 public class YoutubeController {
@@ -34,16 +34,14 @@ public class YoutubeController {
     @PostMapping
     @ResponseBody
     public ModelAndView index_post(@RequestParam Map<String, Object> params) throws Exception {
-        ModelAndView mv = new ModelAndView("weekly/weekly");
-        mv.addObject("list", youtubeService.select(params));
-        mv.addObject("params", params);
-        return mv;
+        ModelAndView mv = new ModelAndView("youtube/youtube_list");
+        return youtubeService.select(params).asModel("youtube/youtube_list");
     }
 
-    @GetMapping("/new")
+    @GetMapping("/write")
     @ResponseBody
     public ModelAndView index_insert(@RequestParam Map<String, Object> params) throws Exception {
-        ModelAndView mv = new ModelAndView("weekly/weekly_write");
+        ModelAndView mv = new ModelAndView("youtube/youtube_write");
         mv.addObject("params", params);
         return mv;
     }
@@ -57,7 +55,7 @@ public class YoutubeController {
     @PostMapping("/update")
     @ResponseBody
     public ModelAndView index_update(@RequestParam Map<String, Object> params) throws Exception {
-        ModelAndView mv = new ModelAndView("weekly/weekly_write");
+        ModelAndView mv = new ModelAndView("youtube/youtube_write");
         mv.addObject("params", params);
         return mv;
     }

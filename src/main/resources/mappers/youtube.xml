@@ -5,12 +5,12 @@
 
   <sql id="selectWhere">
     SELECT
-    ID, YOUTUBE_NAME, YOUTUBE_URL, UPDATE_DATE, UPDATE_NAME, YOUTUBE_TYPE
+    ID, YOUTUBE_TITLE, YOUTUBE_URL, UPDATE_DATE, UPDATE_NAME, YOUTUBE_TYPE
     FROM T_YOUTUBE
     where 1=1
 
-    <if test="youtube_name != null and youtube_name.trim() != ''">
-      AND YOUTUBE_NAME = #{youtube_name}
+    <if test="youtube_title != null and youtube_title.trim() != ''">
+      AND YOUTUBE_TITLE = #{youtube_title}
     </if>
     <if test="youtube_url != null and youtube_url.trim() != ''">
       AND YOUTUBE_URL = #{youtube_url}
@@ -25,7 +25,6 @@
 
   <select id="_select"  parameterType="Map" resultType="com.lasmch.youtube.domain.Youtube">
     <include refid="selectWhere" />
-    ORDER BY RNUM DESC
     <include refid="Pager.include" />
   </select>
 
@@ -33,12 +32,17 @@
   <select id="selectCount" parameterType="Map" resultType="int">
     SELECT COUNT(1) FROM (
     <include refid="selectWhere" />
-    )
+    ) A
   </select>
+
+  <select id="maxId" parameterType="Map" resultType="int">
+    SELECT MAX(IFNULL(ID, 0)) + 1 FROM T_YOUTUBE
+  </select>
+
 
   <update id="_update" parameterType="Map">
     UPDATE T_YOUTUBE SET
-    YOUTUBE_NAME = #{youtube_name},
+    YOUTUBE_TITLE = #{youtube_title},
     YOUTUBE_URL  = #{youtube_url},
     UPDATE_DATE  = #{update_date},
     UPDATE_NAME  = #{update_name},
@@ -48,8 +52,8 @@
 
   <insert id="_insert" parameterType="Map">
   INSERT INTO T_YOUTUBE
-  (ID, YOUTUBE_NAME, YOUTUBE_URL, UPDATE_DATE, UPDATE_NAME, YOUTUBE_TYPE)
-  VALUES ((select max(nvl(id, 0)) + 1), #{youtube_name}, #{youtube_url}, now(), #{update_name}, #{youtube_type});
+  (ID, YOUTUBE_TITLE, YOUTUBE_URL, UPDATE_DATE, UPDATE_NAME, YOUTUBE_TYPE)
+  VALUES ((SELECT MAX(IFNULL(ID, 0)) + 1 FROM T_YOUTUBE A), #{youtube_title}, #{youtube_url}, now(), #{update_name}, #{youtube_type});
   </insert>
 
   <delete id="_delete" parameterType="Map">
