@@ -1,10 +1,107 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{{#partial "visual"}}
+<div class="visual title">
+    <h2>BOARD view</h2>
+</div>
+{{/partial}}
 
-</body>
-</html>
+{{#partial "content"}}
+<div id="container">
+    <input type="text" style="display: none;"> <!-- watermark 를 위한 임의의 input -->
+    <div class="content-wrap">
+        <div class="board-view"> <!-- watermark 가 들어가야할 부분에 class="watermark" 추가 -->
+            {{{{raw}}}}
+            <div class="form-list-wrap">
+                <p class="btn-right">
+                    <a  class="btn icon" @click="commonFormSubmit(base_url, {} , keyword)">LIST VIEW</a>
+                </p>
+            </div>
+            <div class="view-title">
+                <p class="subject">
+                    <span class="cate" v-text="params.youtube_type"></span>
+                    <span v-text="params.youtube_title"></span>
+                </p>
+
+                <p class="view-info">
+                    <span>{{params.update_name}}</span>
+                    <span>{{params.update_dt}}</span>
+                    <span class="read">{{params.read_cnt}}</span>
+                </p>
+            </div>
+            <!-- //view-title -->
+
+            {{{{/raw}}}}
+            <!-- //view-file -->
+
+            <div class="view-cont">
+                <iframe :src="params.youtube_url"
+                        height="500px"
+                        width="100%"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                </iframe>
+                <div v-html="_.unescape(params.comment)"></div>
+                <p class="board-btns">
+                    <button type="button" @click="youtubeModify()">Modify</button>
+                    <button type="button" @click="youtubeDelete()">Delete</button>
+                </p>
+            </div>
+            <!-- //view-cont -->
+        </div>
+        <!-- //board-view -->
+
+        <p class="btn-wrap full">
+            <a class="btn cp" @click="commonFormSubmit(base_url, {} , keyword)">LIST VIEW</a>
+        </p>
+
+    </div>
+    <!-- //content-wrap -->
+
+</div>
+<!-- //container -->
+{{/partial}}
+
+{{#partial "javascript"}}
+<script>
+    var app = new Vue({
+        el: '#container',
+        components: {},
+        mixins: [commonMixin], //  vue common mixin js
+        data: {
+            params: {{json params}},
+            keyword: {{json keyword}},
+            base_url: location.pathname.substring(0,8),
+        },
+        computed: {
+        },
+        methods: {
+            // Modify 이동
+            youtubeModify: function () {
+                commonFormSubmit(this.base_url+'/write', this.params, this.keyword) // common.js
+            },
+            // 삭제
+            youtubeDelete: function () {
+                const self = this
+                alertPopup('정말 삭제하시겠습니까?', 'confirm').then(function(){
+                    var url = '/youtube/'+self.params.seq_id
+                    axios.delete(url).then(function(res){
+                        if (res.status == 200) {
+                            setTimeout(function () {
+                                alertPopup('삭제되었습니다.').then(function(){
+                                    commonFormSubmit(app.base_url, {} , app.keyword)
+                                })
+                            }, 300)
+                        }
+                    })
+                }).catch(function(err){})
+            },
+            init: function () {
+            }
+        },
+        mounted: function () {
+            console.log(this.params)
+        },
+    })
+</script>
+{{/partial}}
+{{> layout vuejs=true namo=true}}

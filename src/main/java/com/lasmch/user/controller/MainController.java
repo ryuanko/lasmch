@@ -1,6 +1,8 @@
 package com.lasmch.user.controller;
 
+import com.lasmch.youtube.dao.YoutubeDao;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,13 +16,14 @@ import java.util.Map;
 @Transactional
 public class MainController {
 
+
+    @Autowired
+    YoutubeDao youtubeDao;
+
     @GetMapping
     @ResponseBody
     public ModelAndView main() throws Exception {
 
-        Map <String, Object> params = new HashMap<>();
-        params.put("test", "adsasdasd");
-
-        return new ModelAndView("index").addObject("params", params);
+        return new ModelAndView("index").addObject("youtube_list", youtubeDao.main());
     }
 }

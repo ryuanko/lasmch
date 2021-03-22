@@ -5,22 +5,30 @@
 
   <sql id="selectWhere">
     SELECT
-    ID, YOUTUBE_TITLE, YOUTUBE_URL, UPDATE_DATE, UPDATE_NAME, YOUTUBE_TYPE
+        SEQ_ID, YOUTUBE_TITLE, YOUTUBE_URL, DATE_FORMAT(UPDATE_DT, '%Y-%m-%d %H:%i') AS UPDATE_DT, UPDATE_NAME,
+        YOUTUBE_TYPE,COMMENT, READ_CNT, YOUTUBE_DT
     FROM T_YOUTUBE
     where 1=1
 
+    <if test="seq_id != null and seq_id.trim() != ''">
+      AND SEQ_ID = #{seq_id}
+    </if>
     <if test="youtube_title != null and youtube_title.trim() != ''">
-      AND YOUTUBE_TITLE = #{youtube_title}
+      AND YOUTUBE_TITLE like CONCAT('%',#{youtube_title},'%')
     </if>
     <if test="youtube_url != null and youtube_url.trim() != ''">
       AND YOUTUBE_URL = #{youtube_url}
     </if>
-    <if test="update_date != null and update_date.trim() != ''">
-      AND UPDATE_DATE = #{update_date}
+    <if test="str_dt != null and str_dt.trim() != '' and end_dt != null and end_dt.trim() != ''">
+      AND UPDATE_DT BETWEEN STR_TO_DATE(CONCAT(#{str_dt},'0000'), '%Y-%m-%d%H%i') AND STR_TO_DATE(CONCAT(#{end_dt},'2359'), '%Y-%m-%d%H%i')
     </if>
     <if test="youtube_type != null and youtube_type.trim() != ''">
       AND YOUTUBE_TYPE = #{youtube_type}
     </if>
+    <if test="update_name != null and update_name.trim() != ''">
+      AND UPDATE_NAME = #{update_name}
+    </if>
+    ORDER BY YOUTUBE_DT DESC
   </sql>
 
   <select id="_select"  parameterType="Map" resultType="com.lasmch.youtube.domain.Youtube">
@@ -35,30 +43,48 @@
     ) A
   </select>
 
+  <select id="_view" parameterType="Map" resultType="com.lasmch.youtube.domain.Youtube">
+    <include refid="selectWhere" />
+  </select>
+
+  <select id="main" resultType="com.lasmch.youtube.domain.Youtube">
+    <include refid="selectWhere" />
+    LIMIT 2
+  </select>
+
+
   <select id="maxId" parameterType="Map" resultType="int">
     SELECT MAX(IFNULL(ID, 0)) + 1 FROM T_YOUTUBE
   </select>
+
+  <update id="read_cnt" parameterType="Map">
+    UPDATE T_YOUTUBE SET
+      READ_CNT = READ_CNT + 1
+    WHERE SEQ_ID = #{seq_id}
+  </update>
 
 
   <update id="_update" parameterType="Map">
     UPDATE T_YOUTUBE SET
     YOUTUBE_TITLE = #{youtube_title},
     YOUTUBE_URL  = #{youtube_url},
-    UPDATE_DATE  = #{update_date},
+    UPDATE_DT  = NOW(),
     UPDATE_NAME  = #{update_name},
-    YOUTUBE_TYPE = #{youtube_type}
-    WHERE ID = #{id}
+    YOUTUBE_TYPE = #{youtube_type},
+    YOUTUBE_DT = STR_TO_DATE(#{youtube_dt},'%Y-%m-%d'),
+    COMMENT = #{comment}
+    WHERE SEQ_ID = #{seq_id}
   </update>
 
   <insert id="_insert" parameterType="Map">
   INSERT INTO T_YOUTUBE
-  (ID, YOUTUBE_TITLE, YOUTUBE_URL, UPDATE_DATE, UPDATE_NAME, YOUTUBE_TYPE)
-  VALUES ((SELECT MAX(IFNULL(ID, 0)) + 1 FROM T_YOUTUBE A), #{youtube_title}, #{youtube_url}, now(), #{update_name}, #{youtube_type});
+  (YOUTUBE_TITLE, YOUTUBE_URL, UPDATE_DT, UPDATE_NAME, YOUTUBE_TYPE, COMMENT, READ_CNT, YOUTUBE_DT)
+  VALUES ( #{youtube_title}, #{youtube_url}, now(), #{update_name}, #{youtube_type}, #{comment}, 0, STR_TO_DATE(#{youtube_dt},'%Y-%m-%d'));
   </insert>
 
-  <delete id="_delete" parameterType="Map">
+  <delete id="_delete" parameterType="String">
   DELETE FROM T_YOUTUBE
-  WHERE ID = #{ID}
+  WHERE SEQ_ID = #{seq_id}
   </delete>
 
 </mapper>

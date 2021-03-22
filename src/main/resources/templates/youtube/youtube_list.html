@@ -1,6 +1,6 @@
 {{#partial "visual"}}
 <div class="visual title">
-    <h2>YouTube 관리</h2>
+    <h2>예배영상</h2>
     <button class="btn-print">print</button>
 </div>
 {{/partial}}
@@ -14,20 +14,25 @@
                 <select title="카테고리 선택" v-model="params.selOption" @change="changeHandler()">
                     <option value="">ALL</option>
                     <option value="subject">Subject</option>
-                    <option value="provider">Provider</option>
+                    <option value="category">Category</option>
                     <option value="period">Period</option>
                 </select>
-                <input type="text" title="검색할 단어입력" placeholder="search" v-model="params.text" @keydown.enter="getData()"/>
+                <select v-if="params.selOption === 'category'" title="카테고리 선택" v-model="params.youtube_type" >
+                    <option value="">선택</option>
+                    <option value="S">주일예배</option>
+                    <option value="F">금요예배</option>
+                </select>
+                <input v-if="params.selOption === 'subject'" type="text" title="검색할 단어입력" placeholder="search" v-model="params.youtube_title" @keydown.enter="getData()"/>
             </p>
             <p class="group date-set">
-                <input type="text" class="calendar" title="시작날짜" ref="str_dt" v-model="params.str_dt"/>
+                <input type="text" class="calendar" title="시작날짜" v-model="params.str_dt"/>
                 <span class="dash">~</span>
-                <input type="text" class="calendar" title="종료날짜" ref="end_dt" v-model="params.end_dt"/>
+                <input type="text" class="calendar" title="종료날짜" v-model="params.end_dt"/>
             </p>
             <button class="btn-search" @click="getData()">SEARCH</button>
         </div>
         <!-- ================================================================================================================= -->
-
+        <button class="btn-filter">필터</button>
         <!-- //search-box : select-input -->
     </div>
     <!-- //search-area -->
@@ -55,12 +60,12 @@
                     <td class="subject cp" @click="commonFormSubmit(base_url+'/view', i, keywords)">
                         <a>
                             <span class="cate" v-text="i.youtube_type"></span>
-                            <span v-text="i.youtube_name"></span>
+                            <span v-text="i.youtube_title"></span>
                         </a>
                     </td>
                     <td v-text="i.update_name"></td>
-                    <td v-text="i.update_date"></td>
-                    <td class="read" v-text="i.hit"></td>
+                    <td v-text="i.update_dt"></td>
+                    <td class="read" v-text="i.read_cnt"></td>
                 </tr>
                 </tbody>
             </table>
@@ -70,7 +75,7 @@
         {{> pager_post }}
         <!-- //pagenate -->
         <p class="btn-wrap btn-write">
-            <a class="btn cp" @click="commonFormSubmit(base_url+'/write')">WRITE</a>
+            <a class="btn cp" href="/youtube/write">WRITE</a>
         </p>
     </div>
     <!-- //content-wrap -->
@@ -81,26 +86,26 @@
 {{/partial}}
 {{#partial "javascript"}}
 <script >
-    new Vue({
+  const app = new Vue({
         el: '#container',
         mixins: [commonMixin], //  vue common mixin js
         data: {
             list: {{json records}},
             keywords: {{json navigation.keywords}},
             params: {
-                selOption: '',
-                    text: '',
+                    selOption:'',
+                    youtube_type: '',
+                    youtube_title: '',
                     str_dt: '',
                     end_dt: '',
-                    code_c: '',
-                    guboon: ''
             },
             base_url: location.pathname.substring(0,8),
         },
         methods: {
             // option 변경시 초기화
             changeHandler: function () {
-                this.params.text = ''
+                this.params.youtube_type = ''
+                this.params.youtube_title = ''
                 this.params.end_dt = ''
                 this.params.str_dt = ''
             },
@@ -111,7 +116,9 @@
         },
         created: function () {
             console.log('list', this.list)
-
+        },
+        mounted: function () {
+            setDatepicker()
         },
     })
 </script>

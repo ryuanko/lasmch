@@ -1,12 +1,13 @@
 a{cursor: pointer}
-
-.lasmch-logo {color: #333; font-size: 28px}
+.lasmch-logo {color: white}
+.main .lasmch-logo {color: #333; font-size: 28px}
 /* --- nav --- */
 .nav > li + li{margin-left: 70px}
-.nav > li > a {color: #333; font-size: 23px}
+.main .nav > li > a {color: #333; font-size: 23px}
 
-#gnb .myinfo {color: #333}
-#gnb h1 span {color: #333; text-align: center}
+.main #gnb .myinfo {color: #333}
+.main #gnb h1 span {color: #333; text-align: center}
+#gnb h1 span {text-align: center}
 #gnb h1 img {
     width: 41px;
     position: absolute;
@@ -28,6 +29,21 @@ a{cursor: pointer}
 .visual .slider .slick-slide {opacity: 1}
 .slick-slide img {height: 500px; width: 1200px; margin: 0 auto; border-radius: 20px}
 .visual.title {background-image: linear-gradient(139deg, #9e3d6f 18%, #8ef919 117%)}
+
+/* datepicker 년도 날짜 선택시 */
+.ui-datepicker select.ui-datepicker-year, .ui-datepicker select.ui-datepicker-month{
+    font-size: 2rem; line-height: 1;font-weight:bold; border: 0px; background-size: 0 auto;
+    padding: 10px 0px 10px 0px;
+}
+.ui-datepicker select.ui-datepicker-year:focus, .ui-datepicker select.ui-datepicker-month:focus {
+    border: 0px !important
+}
+.ui-datepicker select.ui-datepicker-year {
+    width:55%; padding: 4px 0px 10px 27px;
+}
+.ui-datepicker select.ui-datepicker-month {
+    width:40%; padding: 4px 0px 10px 5px;
+}
 
 /* ---- youtube ---- */
 .youtube-section-title {display: none}
@@ -99,8 +115,8 @@ a{cursor: pointer}
 
 /* 태블릿 */
 @media screen and (max-width: 1366px) {
-    #gnb .myinfo {color: white}
-    #gnb .myinfo .search {
+    .main #gnb .myinfo {color: white}
+    .main #gnb .myinfo .search {
         background: url(../../assets/img/common/btn_searchW.png) no-repeat 0 0;
         margin-right: 30px;
         padding: 20px;
@@ -137,7 +153,7 @@ a{cursor: pointer}
 /* tablet Portrait */
 @media screen and (max-width: 767px) {
 
-    #gnb .myinfo .search {
+    .main #gnb .myinfo .search {
         background: url(../../assets/img/common/btn_searchW.png) no-repeat 0 0;
         width: 16px;
         height: 16px;

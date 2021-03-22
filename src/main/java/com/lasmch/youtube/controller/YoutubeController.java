@@ -38,37 +38,68 @@ public class YoutubeController {
         return youtubeService.select(params).asModel("youtube/youtube_list");
     }
 
+
+    @GetMapping("/view")
+    @ResponseBody
+    public ModelAndView view(@RequestParam Map<String, Object> params) throws Exception {
+        return view_post(params);
+    }
+    @PostMapping("/view")
+    @ResponseBody
+    public ModelAndView view_post(@RequestParam Map<String, Object> params) throws Exception {
+
+        youtubeDao.read_cnt(params);
+
+        log.debug("{}", params);
+        System.out.println(">>>>>>>>" + params);
+
+        ModelAndView mv = new ModelAndView("youtube/youtube_view");
+        mv.addObject("params", youtubeDao._view(params));
+        return mv;
+    }
+
     @GetMapping("/write")
     @ResponseBody
-    public ModelAndView index_insert(@RequestParam Map<String, Object> params) throws Exception {
+    public ModelAndView write(@RequestParam Map<String, Object> params) throws Exception {
+        return write_post(params);
+    }
+
+    @PostMapping("/write")
+    @ResponseBody
+    public ModelAndView write_post(@RequestParam Map<String, Object> params) throws Exception {
+
+        log.debug("{}", params);
+        System.out.println(params);
         ModelAndView mv = new ModelAndView("youtube/youtube_write");
-        mv.addObject("params", params);
+        if (params.get("seq_id") != null && !params.get("seq_id").equals("")) {
+            mv.addObject("params", youtubeDao._view(params));
+            mv.addObject("return_params", params);
+        }
+
         return mv;
     }
 
-    @PostMapping("/insert")
-    @ResponseBody
-    public ResponseEntity<?> insert(@RequestParam Map<String, Object> params) throws Exception {
-        return ResponseEntity.ok(youtubeDao._insert(params));
-    }
-
-    @PostMapping("/update")
-    @ResponseBody
-    public ModelAndView index_update(@RequestParam Map<String, Object> params) throws Exception {
-        ModelAndView mv = new ModelAndView("youtube/youtube_write");
-        mv.addObject("params", params);
-        return mv;
-    }
 
     @PutMapping
     @ResponseBody
-    public ResponseEntity<?> update(@RequestParam Map<String, Object> params) throws Exception {
-        return ResponseEntity.ok(youtubeDao._update(params));
+    public ResponseEntity<?> update(@RequestBody Map<String, Object> params) throws Exception {
+
+        params.put("update_name", "ADMIN");
+
+        log.debug("{}", params);
+
+        if (params.get("seq_id") != null && !params.get("seq_id").equals("")) {
+            ResponseEntity.ok(youtubeDao._update(params));
+        } else {
+            ResponseEntity.ok(youtubeDao._insert(params));
+        }
+
+        return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{seq_id}")
     @ResponseBody
-    public ResponseEntity<?> delete(@RequestParam Map<String, Object> params) throws Exception {
-        return ResponseEntity.ok(youtubeDao._delete(params));
+    public ResponseEntity<?> delete(@PathVariable String seq_id) throws Exception {
+        return ResponseEntity.ok(youtubeDao._delete(seq_id));
     }
 }

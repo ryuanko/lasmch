@@ -26,4 +26,14 @@ public class WeeklyController {
 
         return new ModelAndView("weekly/weekly").addObject("temp", params);
     }
+
+    @GetMapping("/view")
+    @ResponseBody
+    public ModelAndView view() throws Exception {
+
+        Map <String, Object> params = new HashMap<>();
+        params.put("test", "adsasdasd");
+
+        return new ModelAndView("weekly/weekly_view").addObject("temp", params);
+    }
 }

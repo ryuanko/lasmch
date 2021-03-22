@@ -30,18 +30,6 @@ public class YoutubeService {
 
         List<Youtube> list = youtubeDao._select(params);
 
-        log.debug("{}", list);
-        System.out.println("list" + list);
-
-        Map<String, Object> temp  = new HashMap<>();
-        temp.put("id", youtubeDao.maxId());
-        temp.put("youtube_name", "테스트 입니다");
-        temp.put("youtube_type", "S");
-        temp.put("youtube_url", "http://qwe");
-        temp.put("update_name", "양성수");
-        youtubeDao._insert(temp);
-
-
         return new Pagination(
                 Integer.parseInt(params.get("page").toString()),
                 Integer.parseInt(params.get("fetchSize").toString()),

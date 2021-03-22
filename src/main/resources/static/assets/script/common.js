@@ -965,7 +965,7 @@ function visualSlider() {
 
 
 	$(".visual .slider2").slick({
-		autoplay : false,
+		autoplay : true,
 		autoplaySpeed : 5000,
 		// centerMode: true,
 		// centerPadding:'24px',

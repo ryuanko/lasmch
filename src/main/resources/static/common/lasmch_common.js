@@ -292,6 +292,7 @@ function setDatepickerClearBtn(element) {
 // parameter + keyword 있는 경우  - 상세페이지 이동
 // keyword만 있는 경우 - 상세페이지 에서 리스트로 이동
 function commonFormSubmit (url, parameter, keyword, option){
+    console.log(parameter)
   var form = document.createElement("form");
 
   form.setAttribute("method", (!_.isEmpty(option) && !_.isEmpty(option.method))?option.method: "POST");

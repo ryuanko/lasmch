@@ -4,14 +4,14 @@
     <h2>예배 영상</h2>
     <div class="youtube-list">
         <ul class="youtube-section-title">
-            <li><h3><a  :class="{on: params.is_view1}" @click="showYoutube('is_view1')">주일예배 동영상</a></h3></li>
-            <li><h3><a  :class="{on: params.is_view2}" @click="showYoutube('is_view2')">금요예배 동영상</a></h3></li>
+            <li><h3><a  :class="{on: params.is_view1}" @click="showYoutube('is_view1')" v-text="youtube_list[0].youtube_title"></a></h3></li>
+            <li><h3><a  :class="{on: params.is_view2}" @click="showYoutube('is_view2')" v-text="youtube_list[1].youtube_title"></a></h3></li>
         </ul>
         <ul class="youtube-section">
             <li v-show="params.is_view1" class="youtube-li">
-                <h3><a >주일예배 동영상</a></h3>
+                <h3><a v-text="youtube_list[0].youtube_title" @click="commonFormSubmit('/youtube/view', youtube_list[0])"></a></h3>
                 <ul class="list">
-                    <iframe src="https://www.youtube.com/embed/IWv1LoMs2kc"
+                    <iframe :src="youtube_list[0].youtube_url"
                             height="300px"
                             width="100%"
                             frameborder="0"
@@ -21,10 +21,10 @@
                 </ul>
             </li>
             <li v-show="params.is_view2" class="youtube-li">
-                <h3><a >금요예배 동영상</a></h3>
+                <h3><a v-text="youtube_list[1].youtube_title" @click="commonFormSubmit('/youtube/view', youtube_list[1])"></a></h3>
                 <ul class="list">
                     <iframe
-                            src="https://www.youtube.com/embed/D3MBQBFVv5A"
+                            :src="youtube_list[1].youtube_url"
                             height="300px"
                             width="100%"
                             frameborder="0"
@@ -92,29 +92,11 @@
     <div class="quick-wrap">
         <div class="quick-view-more">
             <!--        <button type="button" id="quick-trigger">전체보기 +</button>-->
-            <div id="quick_menu_layer">
-                <div class="layer_head">
-                    <!--            <h3>메뉴 전체보기</h3>-->
-                    <button type="button" id="quick-closer">닫기</button>
-                </div>
-                <ul>
-                    <li class="list01"><a >최근주요 <span>지시사항</span></a></li>
-                    <li class="list03"><a >객실승무본부 <span>중점 강조사항</span></a></li>
-                    <li class="list05"><a >지급신청</a></li>
-                    <li class="list07"><a >휴가신청</a></li>
-                    <li class="list09"><a >SKD SWAP</a></li>
-                    <li class="list02"><a >REFERNCES</a></li>
-                    <li class="list04"><a >Q&amp;A</a></li>
-                    <li class="list06"><a >VOICE OF <span>CUSTOMER</span></a></li>
-                    <li class="list08"><a >BOARD</a></li>
-                    <li class="list10"><a >고충상담</a></li>
-                </ul>
-            </div>
         </div>
         <ul class="quick-list">
             <li class="list04"><a href="/weekly">교회안내</a></li>
             <li class="list09"><a href="/weekly">예배시간</a></li>
-            <li class="list02"><a href="/weekly">주보</a></li>
+            <li class="list02"><a href="/weekly/view">주보</a></li>
             <li class="list08"><a href="/weekly">교육부</a></li>
             <li class="list07"><a href="/weekly">훈역사역</a></li>
             <li class="list05"><a href="/weekly">교회앨범</a></li>
@@ -147,7 +129,7 @@
     new Vue({
         el: '#container',
         data: {
-            temp: {{json params}},
+            youtube_list: {{json youtube_list}},
             params: {
                 is_view1: true,
                 is_view2: false,
@@ -187,7 +169,7 @@
                     this.params.is_view2 = true
                 }
             })
-            console.log(this.params, this.temp)
+            console.log(this.params, this.youtube_list)
         }
     })
 </script>

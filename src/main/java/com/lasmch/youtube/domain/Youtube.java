@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Youtube {
 
-    @JsonProperty("id")
-    private int id;
+    @JsonProperty("seq_id")
+    private int seqId;
 
     @JsonProperty("read_cnt")
     private int readCnt;
@@ -26,8 +26,11 @@ public class Youtube {
     @JsonProperty("youtube_url")
     private String youtubeUrl;
 
-    @JsonProperty("update_date")
-    private String updateDate;
+    @JsonProperty("youtube_dt")
+    private String youtubeDt;
+
+    @JsonProperty("update_dt")
+    private String updateDt;
 
     @JsonProperty("update_name")
     private String updateName;

@@ -1,0 +1,30 @@
+{{#partial "visual"}}
+<div class="visual title"></div>
+{{/partial}}
+{{#partial "content"}}
+<div id="container">
+    <div class="content-wrap">
+        <img src="/assets/img/temp/weekly_20210321.jpg" style="width: 100%">
+    </div>
+    <!-- //content-wrap -->
+</div>
+{{/partial}}
+
+{{#partial "javascript"}}
+<script >
+    new Vue({
+        el: '#container',
+        data: {
+            temp: {{json temp}},
+            params: {}
+        },
+        methods: {
+        },
+        mounted: function () {
+            console.log("this.temp", this.temp)
+        }
+    })
+</script>
+{{/partial}}
+
+{{> layout }}
