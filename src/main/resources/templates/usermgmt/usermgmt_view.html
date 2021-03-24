@@ -1,0 +1,218 @@
+{{#partial "visual"}}
+<div class="visual title">
+    <h2>성도정보</h2>
+</div>
+{{/partial}}
+{{#partial "content"}}
+<div id="container">
+    <div class="content-wrap">
+        <div class="name-wrap">
+            <!-- <p class="img"><img src="../assets/img/common/" alt=""></p> --> <!-- 사진이 있을경우 -->
+            <p class="img"></p> <!-- 사진이 없을경우 : 기본bg가 보임-->
+            <p class="name" v-text="params.kor_name"></p>
+            <p class="en-name" v-text="params.eng_name"></p>
+        </div>
+        <!--// nmae-wrap -->
+
+        <div class="tbl-both">
+            <div class="left">
+                <h4 class="lv4">기본정보</h4>
+            </div>
+            <div class="right">
+                <p class="accent">
+                    <template v-if="!_.isEmpty(session) && !is_pwd">
+                        <button class="btn icon" style="margin-right: 10px;" @click="is_pwd = true">비밀번호 변경</button>  * 필수 입력
+                    </template>
+                    <template v-if="!_.isEmpty(session) && is_pwd">
+                        <button class="btn icon" style="margin-right: 10px;" @click="is_pwd = false, params.pwd='' ">비밀번호 변경 취소</button>  * 필수 입력
+                    </template>
+                </p>
+            </div>
+        </div>
+        <!-- //tbl-both -->
+        <div class="tbl-wrap">
+            <table class="board-write my-info"> <!-- class="my-info" -->
+                <caption>MY INFORMATION</caption>
+                <colgroup>
+                    <col style="width: 28%;">
+                    <col style="width: auto;">
+                </colgroup>
+                <tbody>
+                <tr v-if="_.isEmpty(session)">
+                    <th scope="row"><label for="id" class="req">ID</label></th>
+                    <td :class="_.isEmpty(params.id)?'error':''">
+                        <input type="text" id="id" v-model="params.id" @blur="userChk()">
+                        <span class="error-txt" >ID을 정확하게 입력해주세요.</span>
+                    </td>
+                </tr>
+                <tr v-if="_.isEmpty(session) || is_pwd">
+                    <th scope="row"><label for="pwd" class="req">비밀번호</label></th>
+                    <td :class="_.isEmpty(params.pwd)?'error':''">
+                        <input type="password" id="pwd" v-model="params.pwd" >
+                        <span class="error-txt">비밀번호를 정확하게 입력해주세요.</span>
+                    </td>
+                </tr>
+                <tr v-if="_.isEmpty(session) || is_pwd">
+                    <th scope="row"><label for="pwd2" class="req">비밀번호 확인</label></th>
+                    <td :class="_.isEmpty(params.pwd2) || params.pwd != params.pwd2 ?'error':''">
+                        <input type="password" id="pwd2" v-model="params.pwd2" >
+                        <span class="error-txt">비밀번호를 정확하게 입력해주세요.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="kor_name" class="req">이름</label></th>
+                    <td :class="_.isEmpty(params.kor_name)?'error':''">
+                        <input type="text" id="kor_name" v-model="params.kor_name">
+                        <span class="error-txt" >이름을 정확하게 입력해주세요.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="eng_name" class="req">영문 이름</label></th>
+                    <td :class="_.isEmpty(params.eng_name)?'error':''">
+                        <input type="text" id="eng_name" v-model="params.eng_name">
+                        <span class="error-txt" >영문 이름을 정확하게 입력해주세요.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="birth">생일</label></th>
+                    <td><input type="text" id="birth" class="calendar" title="시작날짜" placeholder='"-" 포함하고입력' v-model="params.birth"/></td>
+                </tr>
+                <tr v-if="!_.isEmpty(session) && session.userDetail.auth === 'SM'">
+                    <th scope="row"><label for="auth" class="req">AUTH</label></th>
+                    <td :class="_.isEmpty(params.auth)?'error':''">
+                        <select id="auth" v-model="params.auth">
+                            <option value="">선택해주세요</option>
+                            <option value="SM">관리자</option>
+                            <option value="P">성도</option>
+                        </select>
+                        <span class="error-txt">AUTH를 정확하게 입력해주세요.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <label for="mobile1">MOBILE</label>
+                        <a href="#none" class="tooltip">tooltip</a>
+                        <div class="tooltip-layer">
+                            (입력시 "-" 제외하고 연속되는 번호로 입력 바랍니다.)<br>National Code to which each cell phone’s mobile carrier belongs is required in the first box of “Mobile 1(Main)”, and the cell phone number without the first “0”(if applicable) and without "-" is to be put in the following box.
+                        </div>
+                    </th>
+                    <td><input type="text" id="mobile1" placeholder='"-" 제외하고입력' v-model="params.phone"></td>  <!-- 잘못된값 입력 시 td에 class="error" 추가 -->
+                </tr>
+                <tr>
+                    <th scope="row"><label for="email">E-MAIL</label></th>
+                    <td class="mail-wrap">
+                        <input type="text" id="email" v-model="params.email1"><span class="unit">@</span><input type="text" title="도메인주소" v-model="params.email2">
+                        <span class="error-txt">E-MAIL을 정확하게 입력해주세요.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><span class="label">ADDRESS</span></th>
+                    <td class="addr-wrap">
+                        <p>
+                            <input type="text" title="상세주소1" class="no-bg" v-model="params.address1">
+                            <input type="text" title="상세주소2" placeholder="상세주소 입력" v-model="params.address2">
+                        </p>
+                        <span class="error-txt">주소를 정확하게 입력해주세요.</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- //tbl-wrap -->
+
+        <p class="btn-wrap double">
+            <a href="/" class="btn border">CANCEL</a>
+            <a v-if="_.isEmpty(session)" class="btn blue" @click="userInsert()">SAVE</a>
+            <a v-else class="btn blue" @click="userUpdate()">SAVE</a>
+        </p>
+    </div>
+    <!-- //content-wrap -->
+</div>
+<!-- //container -->
+{{/partial}}
+
+{{#partial "javascript"}}
+<script >
+    var app = new Vue({
+        el: '#container',
+        data: {
+            session: {{json session}},
+            params: {{json params}},
+            is_pwd: false
+        },
+        methods: {
+            userChk: function() {
+                const self = this
+                axios.get('/user/id-chk/'+this.params.id).then(function(res){
+                    if (res.status == 200) {
+                        console.log(res.data)
+                        if (res.data > 0) {
+                            alertPopup("중복된 ID 입니다.").then(function(){
+                                self.params.id = ''
+                            })
+                        }
+
+                    }
+                })
+            },
+            userInsert: function () {
+                console.log('userInsert')
+                if (!this.valid()) return
+                const self = this
+                alertPopup("저장하시겠습니까?", 'confirm').then(function(){
+                    axios.post('/user/insert', self.params).then(function(res){
+                        if (res.status == 200) {
+                            alertPopup("회원가입이되었습니다.").then(function(){
+                                location.href = '/login'
+                            })
+                        }
+                    })
+                }).catch(function(err){})
+            },
+            userUpdate: function () {
+                if (!this.valid()) return
+                console.log('userUpdate')
+                const self = this
+                alertPopup("저장하시겠습니까?", 'confirm').then(function(){
+                    axios.put('/user', self.params).then(function(res){
+                        if (res.status == 200) {
+                            alertPopup("개인정보가 변경되었습니다..").then(function(){
+                                if (self.is_pwd) {
+                                    location.href = '/login'
+                                } else {
+                                    location.reload()
+                                }
+
+                            })
+                        }
+                    })
+                }).catch(function(err){})
+            },
+            valid: function() {
+                if ($('.error').length > 0) {
+                    console.log($('.error'))
+                    if ($('.error input')[0] === undefined) {
+                        $('.error select')[0].focus()
+                    } else {
+                        $('.error input')[0].focus()
+                    }
+                    return false
+                }
+
+                this.params.email = this.params.email1 +'@'+ this.params.email2
+                return true
+            }
+        },
+        created: function () {
+            let email = _.isEmpty(this.params.email)? '' :  this.params.email.split("@")
+            this.params.email1 = email[0]
+            this.params.email2 = _.isEmpty(email[1])? '' : email[1]
+            console.log("this.params", this.params)
+        },
+        mounted: function () {
+        }
+    })
+</script>
+{{/partial}}
+
+{{> layout }}

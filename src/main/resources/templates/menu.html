@@ -1,4 +1,4 @@
-<div class="menu-full">
+<div class="menu-full" id="menu-full">
 
     <p class="lasmch-logo">
         <a href="/">
@@ -38,3 +38,35 @@
     <button class="btn-close">닫기</button>
 </div>
 <!-- //menu-full -->
+
+
+<script type="text/javascript">
+
+    // gnb vue
+    new Vue({
+        el: '#gnb',
+        data: {
+            session: {{json session}}
+        },
+        methods:{
+        },
+        created: function () {
+        },
+        mounted: function () {
+        }
+    })
+
+    // gnb vue
+    new Vue({
+        el: '#menu-full',
+        data: {
+            session: {{json session}}
+        },
+        methods:{
+        },
+        created: function () {
+        },
+        mounted: function () {
+        }
+    })
+</script>

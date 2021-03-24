@@ -6,14 +6,29 @@
 <div id="container">
     <div class="content-wrap">
         <div class="error-msg">
-            <strong>{{status}}</strong><br><strong>페이지를 찾을 수 없습니다.</strong>
+            <strong>{{status}}</strong><br>{{#eq status 404}}<strong>페이지를 찾을 수 없습니다.</strong>
             <p>요청하신 페이지를 찾을 수 없습니다.<br>다시 시도해주세요.</p>
 
             <div class="btn-wrap full">
                 <a href="/" class="btn border-blue">HOME</a>
             </div>
+            {{else}}
+            <strong>
+                {{defaultIfEmpty message error}}
+                <br>
+            </strong>
+            {{#eq status 400}}
+            {{errors}}
+            {{/eq}}
+
+            <div class="btn-wrap full" style="margin-top:15px">
+                <a href="/" class="btn border-blue">HOME</a>
+            </div>
+            {{/eq}}
+
         </div>
     </div>
+
 </div>
 <div id="hidden-error" style="display:none;">
     {{trace}}

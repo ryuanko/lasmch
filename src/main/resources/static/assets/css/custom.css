@@ -1,4 +1,5 @@
-a{cursor: pointer}
+
+a, .cp{cursor: pointer}
 .lasmch-logo {color: white}
 .main .lasmch-logo {color: #333; font-size: 28px}
 /* --- nav --- */

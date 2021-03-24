@@ -4,11 +4,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
-public class User {
+@SuppressWarnings("serial")
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @JsonProperty("id")
-    private int id;
+    private String id;
 
     @JsonProperty("email")
     private String email;
@@ -27,5 +33,14 @@ public class User {
 
     @JsonProperty("eng_name")
     private String engName;
+
+    @JsonProperty("address1")
+    private String address1;
+
+    @JsonProperty("address2")
+    private String address2;
+
+    @JsonProperty("birth")
+    private String birth;
 
 }

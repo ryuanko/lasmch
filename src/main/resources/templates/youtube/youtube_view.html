@@ -41,7 +41,7 @@
                         allowfullscreen>
                 </iframe>
                 <div v-html="_.unescape(params.comment)"></div>
-                <p class="board-btns">
+                <p class="board-btns" v-if="!_.isEmpty(session) && session.userDetail.auth === 'SM'">
                     <button type="button" @click="youtubeModify()">Modify</button>
                     <button type="button" @click="youtubeDelete()">Delete</button>
                 </p>
@@ -68,6 +68,7 @@
         components: {},
         mixins: [commonMixin], //  vue common mixin js
         data: {
+            session: {{json session}},
             params: {{json params}},
             keyword: {{json keyword}},
             base_url: location.pathname.substring(0,8),

@@ -189,36 +189,36 @@ $(document).ready(function(){
 	}
 
 	// date picker
-	$( ".calendar").datepicker({
-		dateFormat: "yy-mm-dd",
-		showOtherMonths: true,
-		selectOtherMonths: true,
-		monthNames: ['01','02','03','04','05','06','07','08','09','10','11','12'], //달력의 월 부분 Tooltip 텍스트
-		dayNamesMin: ['S','M','T','W','T','F','S'] ,//달력의 요일 부분 텍스트
-		showMonthAfterYear: true,
-		yearSuffix: ".",
-		showButtonPanel: true,
-		closeText: 'Clear',
-		beforeShow: function(input) {
-			setTimeout(function () {
-				var buttonPane = $(input)
-					.datepicker("widget")
-					.find(".ui-datepicker-buttonpane");
-
-				var btn = $('<button class="ui-datepicker-clear ui-state-default ui-priority-secondary ui-corner-all" type="button">Clear</button>');
-				btn.off("click").on("click", function () {
-					input.value = '';
-				});
-				btn.appendTo(buttonPane);
-			}, 1);
-
-			if ($(window).width() < 767) {
-				return { numberOfMonths: 1 };
-			} else {
-				return { numberOfMonths: 2 };
-			}
-		}
-	});
+	// $( ".calendar").datepicker({
+	// 	dateFormat: "yy-mm-dd",
+	// 	showOtherMonths: true,
+	// 	selectOtherMonths: true,
+	// 	monthNames: ['01','02','03','04','05','06','07','08','09','10','11','12'], //달력의 월 부분 Tooltip 텍스트
+	// 	dayNamesMin: ['S','M','T','W','T','F','S'] ,//달력의 요일 부분 텍스트
+	// 	showMonthAfterYear: true,
+	// 	yearSuffix: ".",
+	// 	showButtonPanel: true,
+	// 	closeText: 'Clear',
+	// 	beforeShow: function(input) {
+	// 		setTimeout(function () {
+	// 			var buttonPane = $(input)
+	// 				.datepicker("widget")
+	// 				.find(".ui-datepicker-buttonpane");
+	//
+	// 			var btn = $('<button class="ui-datepicker-clear ui-state-default ui-priority-secondary ui-corner-all" type="button">Clear</button>');
+	// 			btn.off("click").on("click", function () {
+	// 				input.value = '';
+	// 			});
+	// 			btn.appendTo(buttonPane);
+	// 		}, 1);
+	//
+	// 		if ($(window).width() < 767) {
+	// 			return { numberOfMonths: 1 };
+	// 		} else {
+	// 			return { numberOfMonths: 2 };
+	// 		}
+	// 	}
+	// });
 
 	// layer-popup
 	$('.btn.example, .btn-popup').on('click',function(){

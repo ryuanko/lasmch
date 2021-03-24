@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lasmch.user.dao.UserDao">
+
+  <select id="logintUserInfo"  parameterType="Map" resultType="com.lasmch.user.domain.User">
+    SELECT
+           ID, EMAIL, PHONE, PWD, AUTH, KOR_NAME, ENG_NAME, ADDRESS1,ADDRESS2, BIRTH, UPDATE_DT
+    FROM T_USER
+    WHERE ID = #{id}
+    AND PWD = #{pwd}
+  </select>
+
+  <sql id="selectWhere">
+    SELECT
+      ID, EMAIL, PHONE, AUTH, KOR_NAME, ENG_NAME, ADDRESS1, ADDRESS2, BIRTH, CREATE_DT, UPDATE_DT
+    FROM T_USER
+    WHERE 1=1
+    <if test="id != null and id.trim() != ''">
+      AND ID = #{id}
+    </if>
+    <if test="kor_name != null and kor_name.trim() != ''">
+      AND KOR_NAME like CONCAT('%',#{kor_name},'%')
+    </if>
+    <if test="phone != null and phone.trim() != ''">
+      AND PHONE like CONCAT('%',#{phone},'%')
+    </if>
+    <if test="auth != null and auth.trim() != ''">
+      AND AUTH = #{auth}
+    </if>
+  </sql>
+
+  <select id="_select"  parameterType="Map" resultType="com.lasmch.user.domain.User">
+    <include refid="selectWhere" />
+    <include refid="Pager.include" />
+  </select>
+
+  <select id="selectCount" parameterType="Map" resultType="int">
+    SELECT COUNT(1) FROM (
+    <include refid="selectWhere" />
+    ) A
+  </select>
+
+  <select id="_view" parameterType="Map" resultType="com.lasmch.user.domain.User">
+    <include refid="selectWhere" />
+  </select>
+
+  <update id="_update" parameterType="Map">
+    UPDATE T_USER
+    <trim prefix="SET" suffixOverrides=",">
+        EMAIL = #{email},
+        PHONE = #{phone},
+        <if test="pwd != null and pwd.trim() != ''">
+          PWD = #{pwd},
+        </if>
+        ADDRESS1 = #{address1},
+        ADDRESS2 = #{address2},
+        AUTH = #{auth},
+        ENG_NAME = #{eng_name},
+        KOR_NAME = #{kor_name},
+        BIRTH = #{birth},
+        UPDATE_DT = NOW()
+    </trim>
+    WHERE id = #{id}
+  </update>
+
+  <insert id="_insert" parameterType="Map">
+    INSERT INTO T_USER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      ID, EMAIL, PHONE, PWD, AUTH, KOR_NAME, ENG_NAME, ADDRESS1,ADDRESS2, BIRTH , CREATE_DT, UPDATE_DT
+    </trim>
+    <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+      #{id},#{email},#{phone},#{pwd},'P',#{kor_name},#{eng_name},#{address1}, #{address2}, #{birth}, now(), now()
+    </trim>
+  </insert>
+
+  <delete id="_delete" parameterType="String">
+    DELETE FROM T_USER
+    WHERE ID = #{id}
+  </delete>
+
+
+
+
+
+</mapper>

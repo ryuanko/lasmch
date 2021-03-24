@@ -1,0 +1,100 @@
+{{#partial "visual"}}
+<div class="visual title">
+    <h2>성도관리</h2>
+    <button class="btn-print">print</button>
+</div>
+{{/partial}}
+
+{{#partial "content"}}
+<div id="container">
+    <div class="list-search">
+        <!-- ====================================================== 일반 ====================================================== -->
+        <div class="search-box select-input">
+            <p class="group">
+                <input type="text" title="검색할 단어입력" placeholder="이름" v-model="params.kor_name" @keydown.enter="getData()"/>
+            </p>
+            <button class="btn-search" @click="getData()">SEARCH</button>
+        </div>
+        <!-- ================================================================================================================= -->
+        <button class="btn-filter">필터</button>
+        <!-- //search-box : select-input -->
+    </div>
+    <!-- //search-area -->
+
+    <div class="content-wrap">
+        <div class="tbl-wrap">
+            <table class="board-list">
+                <caption>BOARD LIST</caption>
+                <colgroup>
+                    <col style="width: auto;">
+                    <col style="width: 16%;">
+                    <col style="width: 13%;">
+                    <col style="width: 13%;">
+                    <col style="width: 13%;">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">이름</th>
+                    <th scope="col">영문</th>
+                    <th scope="col">전화번호</th>
+                    <th scope="col">권한</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="i in list" @click="commonFormSubmit(base_url+'/view', i, keywords)" class="cp" >
+                    <td v-text="i.id"></td>
+                    <td v-text="i.kor_name"></td>
+                    <td v-text="i.eng_name"></td>
+                    <td v-text="i.phone"></td>
+                    <td v-text="i.auth === 'SM'?'관리자': '성도'"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- //tbl-wrap -->
+
+        {{> pager_post }}
+        <!-- //pagenate -->
+        <p class="btn-wrap btn-write">
+            <a class="btn cp" href="/user/write">WRITE</a>
+        </p>
+    </div>
+    <!-- //content-wrap -->
+</div>
+
+<!-- //container -->
+
+{{/partial}}
+{{#partial "javascript"}}
+<script >
+  const app = new Vue({
+        el: '#container',
+        mixins: [commonMixin], //  vue common mixin js
+        data: {
+            session: {{json session}},
+            list: {{json records}},
+            keywords: {{json navigation.keywords}},
+            params: {
+                    kor_name:'',
+                    id: '',
+            },
+            base_url: '/user'
+        },
+        methods: {
+            getData: function () {
+                this.params.page = ''
+                commonFormSubmit(this.base_url, this.params) // common.js
+            },
+        },
+        created: function () {
+            console.log('list', this.list)
+        },
+        mounted: function () {
+            setDatepicker()
+        },
+    })
+</script>
+{{/partial}}
+
+{{> layout vuejs=true}}

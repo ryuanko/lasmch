@@ -130,6 +130,7 @@
         el: '#container',
         data: {
             youtube_list: {{json youtube_list}},
+            session: {{json session}},
             params: {
                 is_view1: true,
                 is_view2: false,
@@ -169,7 +170,7 @@
                     this.params.is_view2 = true
                 }
             })
-            console.log(this.params, this.youtube_list)
+            console.log(this.session)
         }
     })
 </script>

@@ -74,8 +74,8 @@
 
         {{> pager_post }}
         <!-- //pagenate -->
-        <p class="btn-wrap btn-write">
-            <a class="btn cp" href="/youtube/write">WRITE</a>
+        <p v-if="!_.isEmpty(session) && session.userDetail.auth === 'SM'" class="btn-wrap btn-write">
+            <a class="btn cp" href="/youtube/adm-write">WRITE</a>
         </p>
     </div>
     <!-- //content-wrap -->
@@ -90,6 +90,7 @@
         el: '#container',
         mixins: [commonMixin], //  vue common mixin js
         data: {
+            session: {{json session}},
             list: {{json records}},
             keywords: {{json navigation.keywords}},
             params: {

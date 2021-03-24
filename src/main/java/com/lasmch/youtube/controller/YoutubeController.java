@@ -1,11 +1,14 @@
 package com.lasmch.youtube.controller;
 
+import com.lasmch.exception.ValidationFailureException;
+import com.lasmch.security.UserPrincipal;
 import com.lasmch.util.BeanUtil;
 import com.lasmch.youtube.dao.YoutubeDao;
 import com.lasmch.youtube.service.YoutubeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -50,26 +53,21 @@ public class YoutubeController {
 
         youtubeDao.read_cnt(params);
 
-        log.debug("{}", params);
-        System.out.println(">>>>>>>>" + params);
-
         ModelAndView mv = new ModelAndView("youtube/youtube_view");
         mv.addObject("params", youtubeDao._view(params));
         return mv;
     }
 
-    @GetMapping("/write")
+    @GetMapping("/adm-write")
     @ResponseBody
     public ModelAndView write(@RequestParam Map<String, Object> params) throws Exception {
         return write_post(params);
     }
 
-    @PostMapping("/write")
+    @PostMapping("/adm-write")
     @ResponseBody
     public ModelAndView write_post(@RequestParam Map<String, Object> params) throws Exception {
 
-        log.debug("{}", params);
-        System.out.println(params);
         ModelAndView mv = new ModelAndView("youtube/youtube_write");
         if (params.get("seq_id") != null && !params.get("seq_id").equals("")) {
             mv.addObject("params", youtubeDao._view(params));
@@ -82,9 +80,9 @@ public class YoutubeController {
 
     @PutMapping
     @ResponseBody
-    public ResponseEntity<?> update(@RequestBody Map<String, Object> params) throws Exception {
+    public ResponseEntity<?> update(@RequestBody Map<String, Object> params, @AuthenticationPrincipal UserPrincipal principal) throws Exception {
 
-        params.put("update_name", "ADMIN");
+        params.put("update_name", principal.getNickname());
 
         log.debug("{}", params);
 
