@@ -19,23 +19,7 @@
         <maven.test.skip>true</maven.test.skip>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>local-maven</id>
-            <url>http://10.46.44.5:8080/repository/maven-releases/</url>
-        </repository>
-        <repository>
-            <id>local-snapshot</id>
-            <url>http://10.46.44.5:8080/repository/maven-snapshots/</url>
-        </repository>
-        <repository>
-            <id>opensaml-repository</id>
-            <url>https://artifacts.alfresco.com/nexus/content/repositories/public/</url>
-        </repository>
-    </repositories>
-
     <dependencies>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -108,20 +92,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.koreanair</groupId>
-            <artifactId>aws-client</artifactId>
-            <version>0.0.9</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>devtools</groupId>
-            <artifactId>handlebars</artifactId>
-            <version>0.0.2</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
@@ -140,6 +112,38 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!-- aws -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>1.11.616</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-sts</artifactId>
+            <version>1.11.616</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- handlebar -->
+        <dependency>
+            <groupId>com.github.jknack</groupId>
+            <artifactId>handlebars</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.8.1</version>
         </dependency>
 
     </dependencies>

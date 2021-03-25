@@ -1,0 +1,31 @@
+{{#partial "visual"}}
+<div class="visual title">
+    <h2>예배시간</h2>
+</div>
+{{/partial}}
+{{#partial "content"}}
+<div id="container">
+    <div class="content-wrap">
+        <div style="text-align: center">
+            <img class="church-info-img-pc" src="/assets/img/temp/worship_time_pc.jpg">
+            <img class="church-info-img-mb" src="/assets/img/temp/worship_time_mb.jpg">
+        </div>
+    </div>
+</div>
+{{/partial}}
+
+{{#partial "javascript"}}
+<script >
+    new Vue({
+        el: '#container',
+        data: {
+        },
+        methods: {
+        },
+        mounted: function () {
+        }
+    })
+</script>
+{{/partial}}
+
+{{> layout }}

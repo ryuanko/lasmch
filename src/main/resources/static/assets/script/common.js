@@ -1149,12 +1149,15 @@ function youtubeSlider() {
 function gnbFixed() {
 	var $gnb = $('#gnb'),
 		$gnbTit = $('.visual.title h2');
+		$gnbTitMain = $('.main .visual h2');
 	if ( $(window).scrollTop() > 10 ){
 		$gnb.addClass('fixed');
 		$gnbTit.addClass('fixed');
+		$gnbTitMain.addClass('main-gnb');
 	} else {
 		$gnb.removeClass('fixed');
 		$gnbTit.removeClass('fixed');
+		$gnbTitMain.removeClass('main-gnb');
 	}
 }
 

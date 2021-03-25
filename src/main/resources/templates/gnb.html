@@ -9,16 +9,17 @@
         </h1>
         <a class="btn-menu" title="모바일/태블릿 메뉴 버튼">메뉴</a>
         <ul class="nav">
-            <li><a href="/weekly">교회안내</a></li>
-            <li><a href="/weekly">예배시간</a></li>
+            <li><a href="/church-info">교회안내</a></li>
+            <li><a href="/worship-time">예배시간</a></li>
             <li><a href="/weekly">교육부</a></li>
             <li><a href="/weekly">훈역사역</a></li>
             <li><a href="/weekly/view">주보</a></li>
             <li><a href="/weekly">교회 앨범</a></li>
             <li><a href="/youtube">예배영상</a></li>
+            <li v-if="!_.isEmpty(session) && session.userDetail.auth === 'SM'" ><a href="/adm">관리자</a></li>
         </ul>
         <div class="myinfo">
-            <button class="search"></button>
+            <!--<button class="search"></button>-->
 
             <a class="user">my info</a> <!-- 클릭시 툴팁메뉴 노출됨 -->
             <p v-if="session === null"> 방문해주셔서 <strong></strong> <br> 감사합니다. :)</p>

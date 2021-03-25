@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Options;
-import devtools.handlebars.HandlebarsHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;

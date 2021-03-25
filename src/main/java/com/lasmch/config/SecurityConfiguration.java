@@ -49,6 +49,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/assets/**", "/common/**" ,"/").permitAll()
                 .antMatchers("/youtube", "/youtube/view").permitAll()
                 .antMatchers("/weekly", "/weekly/view").permitAll()
+                .antMatchers("/church-info").permitAll()
+                .antMatchers("/worship-time").permitAll()
                 .antMatchers("/user/write", "/user/info", "/user/id-chk/*", "/user/insert").permitAll()
                 .antMatchers("/user").hasRole("ADMIN")
                 .antMatchers("/**/adm-write").hasRole("ADMIN")

@@ -1,9 +1,9 @@
 
 a, .cp{cursor: pointer}
-.lasmch-logo {color: white}
-.main .lasmch-logo {color: #333; font-size: 28px}
+.main .lasmch-logo { color: #333; font-size: 28px}
+.lasmch-logo {color: white; font-size: 28px}
 /* --- nav --- */
-.nav > li + li{margin-left: 70px}
+/*.nav > li + li{margin-left: 70px}*/
 .main .nav > li > a {color: #333; font-size: 23px}
 
 .main #gnb .myinfo {color: #333}
@@ -29,7 +29,8 @@ a, .cp{cursor: pointer}
 .visual .slider .slick-active {opacity: 1}
 .visual .slider .slick-slide {opacity: 1}
 .slick-slide img {height: 500px; width: 1200px; margin: 0 auto; border-radius: 20px}
-.visual.title {background-image: linear-gradient(139deg, #9e3d6f 18%, #8ef919 117%)}
+.visual.title {background-image: linear-gradient(139deg, #9e3d6f 18%, #8ef919 100%)}
+.main .visual h2.fixed {display: none}
 
 /* datepicker 년도 날짜 선택시 */
 .ui-datepicker select.ui-datepicker-year, .ui-datepicker select.ui-datepicker-month{
@@ -110,6 +111,17 @@ a, .cp{cursor: pointer}
 /* 구글 지도 */
 .google-map {display: none}
 
+/* --- 교회소식 --- */
+.church-info-img-pc { display:  inline-block; width: 80%; }
+.church-info-img-mb { display: none;}
+
+/* --- 예배시간 --- */
+.worship-time-img-pc { display:  inline-block; width: 80%; }
+.worship-time-img-mb { display: none;}
+
+
+
+
 /* pc */
 @media screen and (max-width: 1919px) {
 }
@@ -125,7 +137,27 @@ a, .cp{cursor: pointer}
         background-size: 24px auto;
     }
 
-    .visual {background-image: linear-gradient(139deg, #9e3d6f 18%, #8ef919 117%)}
+    .visual {background-image: linear-gradient(139deg, #9e3d6f 18%, #8ef919 100%)}
+
+    .main #gnb.fixed.search-input {
+        z-index: 11;
+    }
+    .main .visual h2.fixed {
+        display: block;
+        overflow: hidden;
+        position: fixed;
+        top: 0;
+        left: 50%;
+        z-index: 10;
+        height: 100px;
+        margin: 0 auto;
+        color: white;
+        line-height: 100px;
+        text-align: center;
+        transform: translateX(-50%);
+    }
+    .main .visual h2.fixed.main-gnb {color: #000 !important;}
+
     .slick-slide img {width: 100%; border-radius: 0px}
 
     /* slide */
@@ -167,7 +199,7 @@ a, .cp{cursor: pointer}
     .menu-full {
         width: 70% !important;
     }
-
+ap
     .menu-full .btn-close {
         top: 52px;
         background-size: 20px auto
@@ -175,6 +207,13 @@ a, .cp{cursor: pointer}
 
     .lasmch-logo img {
         top: 40px;
+    }
+
+    .main .visual h2.fixed {
+        width: calc(100% - 120px);
+        width: -webkit-calc(100% - 120px);
+        height: 69px;
+        line-height: 69px;
     }
 
     /* ---- slider ---- */
@@ -272,6 +311,14 @@ a, .cp{cursor: pointer}
         height: 300px;
         margin-bottom: 10px;
     }
+
+    /* --- 교회소식 --- */
+    .church-info-img-pc { display: none;}
+    .church-info-img-mb { display: inline-block; width: 100%;}
+
+    /* --- 예배시간 --- */
+    .worship-time-img-pc { display: none;}
+    .worship-time-img-mb { display: inline-block; width: 100%;}
 
 }
 

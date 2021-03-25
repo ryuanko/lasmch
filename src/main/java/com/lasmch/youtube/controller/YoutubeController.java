@@ -1,8 +1,7 @@
 package com.lasmch.youtube.controller;
 
-import com.lasmch.exception.ValidationFailureException;
+import com.lasmch.aws.AwsClient;
 import com.lasmch.security.UserPrincipal;
-import com.lasmch.util.BeanUtil;
 import com.lasmch.youtube.dao.YoutubeDao;
 import com.lasmch.youtube.service.YoutubeService;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Map;
 
 @RestController
@@ -27,6 +27,9 @@ public class YoutubeController {
 
     @Autowired
     YoutubeDao youtubeDao;
+
+    @Autowired
+    AwsClient awsClient;
 
     @GetMapping
     @ResponseBody
