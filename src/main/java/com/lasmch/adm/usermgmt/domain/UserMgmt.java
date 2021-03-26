@@ -1,4 +1,4 @@
-package com.lasmch.user.domain;
+package com.lasmch.adm.usermgmt.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @SuppressWarnings("serial")
-public class User implements Serializable {
+public class UserMgmt implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

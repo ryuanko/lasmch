@@ -1,11 +1,10 @@
-package com.lasmch.user.controller;
+package com.lasmch.adm.usermgmt.controller;
 
+import com.lasmch.adm.usermgmt.dao.UserMgmtDao;
+import com.lasmch.adm.usermgmt.domain.UserMgmt;
+import com.lasmch.adm.usermgmt.service.UserMgmtService;
 import com.lasmch.exception.ValidationFailureException;
 import com.lasmch.security.UserPrincipal;
-import com.lasmch.user.dao.UserDao;
-import com.lasmch.user.domain.User;
-import com.lasmch.user.service.UserService;
-import com.lasmch.util.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,28 +17,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user-mgmt")
 @Slf4j
 @Transactional
-public class UserController {
+public class UserMgmtController {
 
     @Autowired
-    UserService userService;
+    UserMgmtService userMgmtService;
 
     @Autowired
-    UserDao userDao;
+    UserMgmtDao userMgmtDao;
 
-    @GetMapping
+    @GetMapping("/adm-list")
     @ResponseBody
     public ModelAndView index(@RequestParam Map<String, Object> params) throws Exception {
         return index_post(params);
     }
 
-    @PostMapping
+    @PostMapping("/adm-list")
     @ResponseBody
     public ModelAndView index_post(@RequestParam Map<String, Object> params) throws Exception {
         ModelAndView mv = new ModelAndView("usermgmt/usermgmt_list");
-        return userService.select(params).asModel("usermgmt/usermgmt_list");
+        return userMgmtService.select(params).asModel("usermgmt/usermgmt_list");
     }
 
 
@@ -52,7 +51,7 @@ public class UserController {
         params.put("id", principal.getUsername());
 
         ModelAndView mv = new ModelAndView("usermgmt/usermgmt_view");
-        mv.addObject("params", userDao._view(params));
+        mv.addObject("params", userMgmtDao._view(params));
 
         return mv;
     }
@@ -63,7 +62,7 @@ public class UserController {
 
         ModelAndView mv = new ModelAndView("usermgmt/usermgmt_view");
         params.remove("auth");
-        mv.addObject("params", userDao._view(params));
+        mv.addObject("params", userMgmtDao._view(params));
 
         return mv;
     }
@@ -72,7 +71,7 @@ public class UserController {
     @ResponseBody
     public ModelAndView write(@AuthenticationPrincipal UserPrincipal principal ) throws Exception {
         ModelAndView mv = new ModelAndView("usermgmt/usermgmt_view");
-        mv.addObject("params", new User());
+        mv.addObject("params", new UserMgmt());
         return mv;
     }
 
@@ -81,14 +80,14 @@ public class UserController {
     public ResponseEntity<?> idChk(@PathVariable String id) throws Exception {
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
-        return ResponseEntity.ok(userDao.selectCount(params));
+        return ResponseEntity.ok(userMgmtDao.selectCount(params));
     }
 
     @PostMapping("/insert")
     @ResponseBody
     public ResponseEntity<?> insert(@RequestBody Map<String, Object> params, @AuthenticationPrincipal UserPrincipal principal) throws Exception {
 
-        return ResponseEntity.ok(userDao._insert(params));
+        return ResponseEntity.ok(userMgmtDao._insert(params));
     }
 
     @PutMapping
@@ -99,7 +98,7 @@ public class UserController {
             throw new ValidationFailureException("해당 권한이 없습니다.");
         }
 
-        return ResponseEntity.ok(userDao._update(params));
+        return ResponseEntity.ok(userMgmtDao._update(params));
     }
 
     @DeleteMapping("/{id}")
@@ -110,7 +109,7 @@ public class UserController {
             throw new ValidationFailureException("해당 권한이 없습니다.");
         }
 
-        return ResponseEntity.ok(userDao._delete(params));
+        return ResponseEntity.ok(userMgmtDao._delete(params));
     }
 
 }

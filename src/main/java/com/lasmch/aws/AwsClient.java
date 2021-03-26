@@ -26,6 +26,8 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.amazonaws.services.s3.model.BucketLifecycleConfiguration.Rule;
 import com.amazonaws.services.securitytoken.AWSSecurityTokenService;
 import com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClientBuilder;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,7 +40,7 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
+@Slf4j
 public class AwsClient {
     private ClientConfig config;
     private AmazonS3 s3client;
@@ -48,11 +50,15 @@ public class AwsClient {
     }
 
     public AwsClient(ClientConfig config, ClientConfiguration configuration) {
+
+        if (config.getBucket().equals("lasmch-la")) {
+            config.setRegion(Regions.US_EAST_2);
+        }
+
         System.out.println("getBucket:" + config.getBucket());
         System.out.println("getAccessKey:" + config.getAccessKey());
         System.out.println("getSecretAccessKey:" + config.getSecretAccessKey());
         System.out.println("getRegion:" + config.getRegion());
-        System.out.println("getRole:" + config.getRole());
 
         this.config = config;
         this.s3client = this.createClient(configuration);

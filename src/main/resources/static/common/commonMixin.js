@@ -7,6 +7,34 @@ var commonMixin = {
     },
     computed: {},
     methods: {
+      // 날짜 비교
+      compareDates: function(str_dt, end_dt, option) {
+        if (_.isEmpty(str_dt) ||_.isEmpty(end_dt)) return false
+        // safari 체크
+        if (isBrowserCheck().name === 'safari') {
+          str_dt = str_dt.replaceAll('-', '/')
+          end_dt = end_dt.replaceAll('-', '/')
+        }
+        var str_dt_time = new Date(str_dt).getTime()
+        var end_dt_time = new Date(end_dt).getTime()
+        // 단순 날짜 비교 true,false return
+        if (_.isEmpty(option)) {
+          if (str_dt_time > end_dt_time) {
+            return false
+          }
+          return true
+        } else {
+          // 비교 날짜 차이
+          // min, hour, day으로 시간 return
+          if (option === 'min') { // 분 날짜 차이
+            return (str_dt_time - end_dt_time) / 1000 / 60;
+          } else if (option === 'hour') { // 시간 날짜 차이
+            return (str_dt_time - end_dt_time) / 1000 / 60 / 60;
+          } else { // 일 날짜 차이
+            return (str_dt_time - end_dt_time) / 1000 / 60 / 60 / 24;
+          }
+        }
+      },
       // 정규식 체크
       regexCheck: function(val, regex) {
         if (!_.isEmpty(val)) {

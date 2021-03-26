@@ -1,4 +1,4 @@
-package com.lasmch.user.domain;
+package com.lasmch.main.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

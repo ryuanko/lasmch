@@ -143,7 +143,7 @@
         methods: {
             userChk: function() {
                 const self = this
-                axios.get('/user/id-chk/'+this.params.id).then(function(res){
+                axios.get('/user-mgmt/id-chk/'+this.params.id).then(function(res){
                     if (res.status == 200) {
                         console.log(res.data)
                         if (res.data > 0) {
@@ -160,7 +160,7 @@
                 if (!this.valid()) return
                 const self = this
                 alertPopup("저장하시겠습니까?", 'confirm').then(function(){
-                    axios.post('/user/insert', self.params).then(function(res){
+                    axios.post('/user-mgmt/insert', self.params).then(function(res){
                         if (res.status == 200) {
                             alertPopup("회원가입이되었습니다.").then(function(){
                                 location.href = '/login'
@@ -174,7 +174,7 @@
                 console.log('userUpdate')
                 const self = this
                 alertPopup("저장하시겠습니까?", 'confirm').then(function(){
-                    axios.put('/user', self.params).then(function(res){
+                    axios.put('/user-mgmt', self.params).then(function(res){
                         if (res.status == 200) {
                             alertPopup("개인정보가 변경되었습니다..").then(function(){
                                 if (self.is_pwd) {

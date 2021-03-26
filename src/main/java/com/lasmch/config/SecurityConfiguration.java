@@ -46,14 +46,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .logoutSuccessUrl("/")
                 .and() // 페이지 권한 설정
                 .authorizeRequests()
-                .antMatchers("/assets/**", "/common/**" ,"/").permitAll()
-                .antMatchers("/youtube", "/youtube/view").permitAll()
+                .antMatchers("/assets/**", "/common/**" ,"/components/**", "/").permitAll()
+                .antMatchers("/board", "/board/view").permitAll()
+
+                .antMatchers("/church", "/church/view", "/church/info").permitAll()
                 .antMatchers("/weekly", "/weekly/view").permitAll()
-                .antMatchers("/church-info").permitAll()
-                .antMatchers("/worship-time").permitAll()
-                .antMatchers("/user/write", "/user/info", "/user/id-chk/*", "/user/insert").permitAll()
-                .antMatchers("/user").hasRole("ADMIN")
-                .antMatchers("/**/adm-write").hasRole("ADMIN")
+                .antMatchers("/worship-time", "/worship-time/view").permitAll()
+                .antMatchers("/youtube", "/youtube/view").permitAll()
+                .antMatchers("/user-mgmt", "/user-mgmt/write", "/user-mgmt/info", "/user-mgmt/id-chk/*", "/user-mgmt/insert" ).permitAll()
+
+                .antMatchers("/**/adm-*").hasRole("ADMIN")
+                .antMatchers("/adm-mgmt, /adm-mgmt/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
     }
 

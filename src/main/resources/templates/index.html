@@ -46,9 +46,10 @@
         <ul class="section">
             <li>
                 <h3><a >교회소식</a></h3>
-                <ul class="list">
-                    <li class="new"><a >교회 홈페이지 오픈 ^^</a></li> <!-- 새글: class="new" -->
-                    <li><a >새 글이 없습니다.</a></li> <!-- 읽은 게시글 : class="read" -->
+                <ul class="list" >
+                    <li :class="{new: isNew(i.create_dt)}" v-for="i in chn_list" @click="commonFormSubmit('/church/view', i, {})">
+                        <a v-text="i.title"></a>
+                    </li>
                 </ul>
             </li>
             <li>
@@ -128,9 +129,11 @@
 
     new Vue({
         el: '#container',
+        mixins: [commonMixin], //  vue common mixin js
         data: {
             youtube_list: {{json youtube_list}},
             session: {{json session}},
+            chn_list: {{json chn_list}},
             params: {
                 is_view1: true,
                 is_view2: false,
@@ -138,6 +141,12 @@
             }
         },
         methods: {
+            isNew: function(updateD) {
+                var now_date = new Date().format('yyyy-MM-dd')
+                var cnt = this.compareDates(updateD, now_date, 'day')
+                if (cnt > -5) return true
+                return false
+            },
             showYoutube(type) {
                 if ( $(window).width() < 768 ) {
                     if (_.isEmpty(type)) {

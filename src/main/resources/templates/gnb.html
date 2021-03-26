@@ -9,17 +9,29 @@
         </h1>
         <a class="btn-menu" title="모바일/태블릿 메뉴 버튼">메뉴</a>
         <ul class="nav">
-            <li><a href="/church-info">교회안내</a></li>
-            <li><a href="/worship-time">예배시간</a></li>
+            <li>
+                <a href="#">교회안내</a>
+                <ul class="depth2">
+                    <li><a href="/church/info">교회안내</a></li>
+                    <li><a href="/church">교회소식</a></li>
+                </ul>
+            </li>
+            <li><a href="/worship-time/view">예배시간</a></li>
             <li><a href="/weekly">교육부</a></li>
             <li><a href="/weekly">훈역사역</a></li>
             <li><a href="/weekly/view">주보</a></li>
             <li><a href="/weekly">교회 앨범</a></li>
             <li><a href="/youtube">예배영상</a></li>
-            <li v-if="!_.isEmpty(session) && session.userDetail.auth === 'SM'" ><a href="/adm">관리자</a></li>
+            <li v-if="!_.isEmpty(session) && session.userDetail.auth === 'SM'" >
+                <a href="#">관리자</a>
+                <ul class="depth2">
+                    <li><a href="/user-mgmt/adm-list">USER MGMT</a></li>
+                    <li><a href="/adm-mgmt/img">IMAGE MGMT</a></li>
+                </ul>
+            </li>
         </ul>
         <div class="myinfo">
-            <!--<button class="search"></button>-->
+            <button class="search"></button>
 
             <a class="user">my info</a> <!-- 클릭시 툴팁메뉴 노출됨 -->
             <p v-if="session === null"> 방문해주셔서 <strong></strong> <br> 감사합니다. :)</p>
@@ -29,13 +41,13 @@
                     <p class="txt"><strong class="accent2">샬롬 :)</strong></p>
                     <ul >
                         <li><a href="/login" class="info">로그인</a></li>
-                        <li><a href="/user/write" class="info">회원가입</a></li>
+                        <li><a href="/user-mgmt/write" class="info">회원가입</a></li>
                     </ul>
                 </template>
                 <template v-else>
                     <p class="txt">안녕하세요! <strong class="accent2" v-text="session.nickname"></strong>님<br>환영합니다. :)</p>
                     <ul >
-                        <li><a href="/user/info" class="info">MY INFO</a></li>
+                        <li><a href="/user-mgmt/info" class="info">MY INFO</a></li>
                         <li><a href="/logout" class="logout">로그아웃</a></li>
                     </ul>
                 </template>

@@ -1,10 +1,10 @@
-package com.lasmch.user.controller;
+package com.lasmch.main.controller;
 
-import com.lasmch.security.UserPrincipal;
+import com.lasmch.board.dao.BoardDao;
+import com.lasmch.common.service.CommonService;
 import com.lasmch.youtube.dao.YoutubeDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,11 +22,25 @@ public class MainController {
     @Autowired
     YoutubeDao youtubeDao;
 
+    @Autowired
+    BoardDao boardDao;
+
+    @Autowired
+    CommonService commonService;
+
     @GetMapping
     @ResponseBody
     public ModelAndView main() throws Exception {
         ModelAndView mv = new ModelAndView("index");
-        mv.addObject("youtube_list", youtubeDao.main());
+
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("type_c", "CHN");
+        params.put("fetchSize", "5");
+        params = commonService.setOffset(params);
+
+        mv.addObject("chn_list", boardDao._select(params));
+        mv.addObject("youtube_list", youtubeDao.mainPageView());
         return mv;
     }
 }

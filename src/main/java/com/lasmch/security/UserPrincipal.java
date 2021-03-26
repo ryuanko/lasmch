@@ -1,8 +1,8 @@
 package com.lasmch.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.lasmch.user.domain.Role;
-import com.lasmch.user.domain.User;
+import com.lasmch.adm.usermgmt.domain.UserMgmt;
+import com.lasmch.main.domain.Role;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,7 +26,7 @@ public class UserPrincipal implements UserDetails {
   private final boolean enabled = true;
   private String username;
   private String nickname;
-  private User userDetail;
+  private UserMgmt userDetail;
 
   private Collection<? extends GrantedAuthority> authorities;
 
@@ -44,7 +44,7 @@ public class UserPrincipal implements UserDetails {
     return user;
   }
 
-  public static UserPrincipal create(User userDetail) {
+  public static UserPrincipal create(UserMgmt userDetail) {
     UserPrincipal user = create(userDetail.getId(), userDetail.getKorName(), userDetail.getAuth());
     user.userDetail = userDetail;
     return user;

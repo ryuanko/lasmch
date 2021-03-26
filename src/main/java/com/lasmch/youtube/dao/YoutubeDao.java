@@ -16,5 +16,5 @@ public interface YoutubeDao extends IDaoProvider {
 
     int read_cnt(Map<String,Object> params);
 
-    List<Youtube> main ();
+    List<Youtube> mainPageView ();
 }

@@ -47,7 +47,7 @@
     <include refid="selectWhere" />
   </select>
 
-  <select id="main" resultType="com.lasmch.youtube.domain.Youtube">
+  <select id="mainPageView" resultType="com.lasmch.youtube.domain.Youtube">
     <include refid="selectWhere" />
     LIMIT 2
   </select>

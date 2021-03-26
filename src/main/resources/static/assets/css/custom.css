@@ -4,7 +4,8 @@ a, .cp{cursor: pointer}
 .lasmch-logo {color: white; font-size: 28px}
 /* --- nav --- */
 /*.nav > li + li{margin-left: 70px}*/
-.main .nav > li > a {color: #333; font-size: 23px}
+.main .nav > li > a {color: #333;}
+.nav > li > a {font-size: 23px}
 
 .main #gnb .myinfo {color: #333}
 .main #gnb h1 span {color: #333; text-align: center}
