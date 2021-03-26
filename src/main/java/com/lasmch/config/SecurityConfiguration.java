@@ -48,9 +48,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/assets/**", "/common/**" ,"/components/**", "/").permitAll()
                 .antMatchers("/board", "/board/view").permitAll()
+                .antMatchers("/album", "/album/view").permitAll()
+                .antMatchers("/bible-study", "/bible-study/view").permitAll()
 
                 .antMatchers("/church", "/church/view", "/church/info").permitAll()
-                .antMatchers("/weekly", "/weekly/view").permitAll()
+                .antMatchers("/weekly", "/weekly/view", "/weekly/temp").permitAll()
                 .antMatchers("/worship-time", "/worship-time/view").permitAll()
                 .antMatchers("/youtube", "/youtube/view").permitAll()
                 .antMatchers("/user-mgmt", "/user-mgmt/write", "/user-mgmt/info", "/user-mgmt/id-chk/*", "/user-mgmt/insert" ).permitAll()

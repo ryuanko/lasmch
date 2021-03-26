@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lasmch.admmgmt.typemgmt.dao.TypeMgmtDao">
+
+    <select id="_select"  parameterType="Map" resultType="com.lasmch.admmgmt.typemgmt.domain.TypeMgmt">
+        SELECT TYPE_C, DESCRIPTION FROM T_TYPE_C_MGMT
+        where 1=1
+
+        <if test="img_mgmt != null and img_mgmt.trim() != ''">
+            AND TYPE_C != 'CHN'
+        </if>
+
+        ORDER BY TYPE_C ASC
+    </select>
+
+</mapper>

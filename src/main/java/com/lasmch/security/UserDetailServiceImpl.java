@@ -1,7 +1,7 @@
 package com.lasmch.security;
 
-import com.lasmch.adm.usermgmt.dao.UserMgmtDao;
-import com.lasmch.adm.usermgmt.domain.UserMgmt;
+import com.lasmch.admmgmt.usermgmt.dao.UserMgmtDao;
+import com.lasmch.admmgmt.usermgmt.domain.UserMgmt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

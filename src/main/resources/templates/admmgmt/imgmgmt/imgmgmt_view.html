@@ -1,0 +1,111 @@
+{{#partial "visual"}}
+<div class="visual title">
+    <h2>홈페이지 이미지 관리</h2>
+</div>
+{{/partial}}
+
+{{#partial "content"}}
+<div id="container">
+    <input type="text" style="display: none;"> <!-- watermark 를 위한 임의의 input -->
+    <div class="content-wrap">
+        <div class="board-view"> <!-- watermark 가 들어가야할 부분에 class="watermark" 추가 -->
+            {{{{raw}}}}
+            <div class="form-list-wrap">
+                <p class="btn-right">
+                    <a  class="btn icon" @click="commonFormSubmit(base_url, {} , keyword)">LIST VIEW</a>
+                </p>
+            </div>
+            <div class="view-title">
+                <p class="subject">
+                    <span class="cate" v-text="params.type_c"></span>
+                    <span v-text="params.title"></span>
+                </p>
+
+                <p class="view-info">
+                    <span>{{params.update_nm}}</span>
+                    <span>{{params.update_dt}}</span>
+                    <span class="read">{{params.hit}}</span>
+                </p>
+            </div>
+            <div class="view-file">
+                <template v-for="i in file_list">
+                    <a :href="i.file_s3_url" target="_blank">{{i.file_name}}</a>
+                </template>
+            </div>
+            <!-- //view-title -->
+
+            {{{{/raw}}}}
+            <!-- //view-file -->
+
+            <div class="view-cont">
+                <div v-html="_.unescape(params.description)"></div>
+                <p class="board-btns">
+                    <button type="button" @click="imgMgmtModify()">Modify</button>
+                    <button type="button" @click="imgMgmtDelete()">Delete</button>
+                </p>
+            </div>
+            <!-- //view-cont -->
+        </div>
+        <!-- //board-view -->
+
+        <p class="btn-wrap full">
+            <a class="btn cp" @click="commonFormSubmit(base_url, {} , keyword)">LIST VIEW</a>
+        </p>
+
+    </div>
+    <!-- //content-wrap -->
+
+</div>
+<!-- //container -->
+{{/partial}}
+
+{{#partial "javascript"}}
+<script>
+    var app = new Vue({
+        el: '#container',
+        components: {},
+        mixins: [commonMixin], //  vue common mixin js
+        data: {
+            session: {{json session}},
+            params: {{json params}},
+            keyword: {{json keyword}},
+            file_list: {{json file_list}},
+            base_url: '/img-mgmt'
+        },
+        computed: {
+        },
+        methods: {
+            fileDownload: function(origin_name,filekey){
+                commonFormSubmit("/common/Download", {"filekey":filekey,"origin_name":origin_name,"worktype":"TEST"})
+            },
+            // Modify 이동
+            imgMgmtModify: function () {
+                commonFormSubmit(this.base_url+'/write', this.params, this.keyword) // common.js
+            },
+            // 삭제
+            imgMgmtDelete: function () {
+                const self = this
+                alertPopup('정말 삭제하시겠습니까?', 'confirm').then(function(){
+                    loading()
+                    var url = self.base_url+ "/" + self.params.seq_id
+                    axios.delete(url, {params: self.params}).then(function(res){
+                        if (res.status == 200) {
+                            setTimeout(function () {
+                                alertPopup('삭제되었습니다.').then(function(){
+                                    commonFormSubmit(self.base_url, {} , self.keyword)
+                                })
+                            }, 300)
+                        }
+                    })
+                }).catch(function(err){})
+            },
+            init: function () {
+            }
+        },
+        mounted: function () {
+            console.log(this.params)
+        },
+    })
+</script>
+{{/partial}}
+{{> layout vuejs=true namo=true}}

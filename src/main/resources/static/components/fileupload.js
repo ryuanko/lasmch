@@ -11,6 +11,7 @@ var fileuploadTemplate = {
         +'               :data="file.file_name"'
         +'               @change="fileChangeHandle(file, index)"'
         +'               ref="uploadFile"'
+        +'               :accept="accept"'
         +'        >'
         +'      </div>'
         +'      <!-- //btn-file -->'
@@ -38,6 +39,13 @@ var fileuploadTemplate = {
            required: false,
            default: []
          },
+        accept: {
+            type:String,
+            required:false,
+            default: function () {
+                return ''
+            }
+        }
     },
     methods: {
       // --------------- 파일 셋팅 -------------------------------------------------
@@ -67,5 +75,6 @@ var fileuploadTemplate = {
     mounted: function () {
       this.params.delfile = [] // 삭제 파일 추가
       this.setFileList()
+        console.log('accept: ', this.accept)
     }
 };

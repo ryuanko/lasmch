@@ -8,13 +8,13 @@ a, .cp{cursor: pointer}
 .nav > li > a {font-size: 23px}
 
 .main #gnb .myinfo {color: #333}
-.main #gnb h1 span {color: #333; text-align: center}
+.main #gnb h1 span {color: #333; text-align: center; margin-left: -41px}
 #gnb h1 span {text-align: center}
 #gnb h1 img {
-    width: 41px;
+    width: 40px;
     position: absolute;
     left: -44px;
-    top: -3px;
+    top: -5px;
 }
 
 
@@ -158,6 +158,7 @@ a, .cp{cursor: pointer}
         transform: translateX(-50%);
     }
     .main .visual h2.fixed.main-gnb {color: #000 !important;}
+    .main .visual h2.fixed.main-gnb a img {width: 40px; vertical-align: middle; margin-right: 10px}
 
     .slick-slide img {width: 100%; border-radius: 0px}
 
@@ -216,6 +217,7 @@ ap
         height: 69px;
         line-height: 69px;
     }
+    .main .visual h2.fixed a  img {width: 40px;vertical-align: middle; margin-right: 7px}
 
     /* ---- slider ---- */
     .visual .slider {
@@ -320,6 +322,9 @@ ap
     /* --- 예배시간 --- */
     .worship-time-img-pc { display: none;}
     .worship-time-img-mb { display: inline-block; width: 100%;}
+
+    /* --- 주보 --- */
+    .in-edit {overflow:auto;}
 
 }
 

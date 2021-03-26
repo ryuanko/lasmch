@@ -1,0 +1,122 @@
+{{#partial "visual"}}
+<div class="visual title">
+    <h2>교회 소식</h2>
+</div>
+{{/partial}}
+
+{{#partial "content"}}
+<div id="container">
+    <div class="content-wrap">
+        <div class="tbl-wrap">
+            <table class="board-write">
+                <caption>BOARD WRITE</caption>
+                <colgroup>
+                    <col style="width: 25%;">
+                    <col style="width: auto;">
+                </colgroup>
+                <tbody>
+                <tr>
+                    <th scope="row"><label for="subject">Title</label></th>
+                    <td><input type="text" id="subject" class="subject" placeholder="제목을 입력하세요." v-model="params.title"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Description</th>
+                    <td>
+                        <div class="editor-area" id="editor">
+                            <!--cross editor-->
+                            <div id="crossParent" class="container">
+                                <textarea id="desc" v-model="params.description"></textarea>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Attach Files</th>
+                    <td>
+                        <fileupload-template
+                                ref="fileTemplate"
+                                :params="params"
+                                :list="file_list"
+                        ></fileupload-template>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="btn-wrap double">
+            <a href="#none" class="btn border" @click="goBack()">CANCEL</a>
+            <a href="#none" class="btn blue" @click="setData()">SAVE</a>
+        </p>
+    </div>
+    <!-- //content-wrap -->
+</div>
+<!-- //container -->
+{{/partial}}
+
+{{#partial "javascript"}}
+<script src="/components/fileupload.js"></script>
+<script>
+   const app = new Vue({
+        el: '#container',
+       components: {'fileuploadTemplate': fileuploadTemplate},
+        mixins: [commonMixin], //  vue common mixin js
+        data: {
+            params: {{json params}},
+            keyword: {{json keyword}},
+            file_list: {{json file_list}},
+            base_url: '/church'
+        },
+        methods: {
+            goBack: function () {
+                commonFormSubmit(this.base_url, {} , this.keyword)
+            },
+            setData: function () {
+                const self = this
+                if (!this.valid()) return
+
+                var formData = new FormData();
+                // ------ 파일 첨부 부분 -----------
+                // component에있는 파일 append
+                this.$refs.fileTemplate.$refs.uploadFile.forEach(function(i) {
+                    if (i.files.length > 0) {
+                        formData.append("upfile", i.files[0]);
+                    }
+                })
+                // ------------------------------
+                _.keys(this.params).forEach(function(i){
+                    if (!_.isEmpty(self.params[i])) {
+                        formData.append(i, self.params[i])
+                    }
+                })
+
+                alertPopup("저장하시겠습니까?", 'confirm').then(function(){
+                    loading()
+                    axios.post(self.base_url+'/adm-update',formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(function(res){
+                        if (res.status == 200) {
+                            self.goBack()
+                        }
+                    })
+                }).catch(function(err){})
+            },
+            valid: function () {
+                if (_.isEmpty(_.trim(this.params.title))) {
+                    alertPopup('Title 입력해 주세요.')
+                    return false
+                }
+
+                return true
+            },
+            init: function () {
+            }
+        },
+        created() {
+            this.init()
+        },
+        mounted: function () {
+        },
+    });
+</script>
+{{/partial}}
+
+{{> layout vuejs=true namo=true }}

@@ -4,8 +4,8 @@
         <h1>
             <a href="/" class="lasmch-logo">
                 <img src="/assets/img/lasmch/logo_c.png">
-                성문성결교회</a> <!-- 링크 메인페이지로 연결 -->
-            <span id="citytiem">SungMoon Church</span>
+                성문교회</a> <!-- 링크 메인페이지로 연결 -->
+            <span id="citytiem">HolyGate Evangelical Church</span>
         </h1>
         <a class="btn-menu" title="모바일/태블릿 메뉴 버튼">메뉴</a>
         <ul class="nav">
@@ -17,16 +17,16 @@
                 </ul>
             </li>
             <li><a href="/worship-time/view">예배시간</a></li>
-            <li><a href="/weekly">교육부</a></li>
-            <li><a href="/weekly">훈역사역</a></li>
-            <li><a href="/weekly/view">주보</a></li>
-            <li><a href="/weekly">교회 앨범</a></li>
+            <li><a href="/weekly/temp">교육부</a></li>
+            <li><a href="/bible-study/view">훈련사역</a></li>
+            <li><a href="/weekly">주보</a></li>
+            <li><a href="/album/view">교회 앨범</a></li>
             <li><a href="/youtube">예배영상</a></li>
             <li v-if="!_.isEmpty(session) && session.userDetail.auth === 'SM'" >
                 <a href="#">관리자</a>
                 <ul class="depth2">
                     <li><a href="/user-mgmt/adm-list">USER MGMT</a></li>
-                    <li><a href="/adm-mgmt/img">IMAGE MGMT</a></li>
+                    <li><a href="/img-mgmt">IMAGE MGMT</a></li>
                 </ul>
             </li>
         </ul>

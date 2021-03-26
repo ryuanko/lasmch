@@ -1,7 +1,7 @@
 package com.lasmch.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.lasmch.adm.usermgmt.domain.UserMgmt;
+import com.lasmch.admmgmt.usermgmt.domain.UserMgmt;
 import com.lasmch.main.domain.Role;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

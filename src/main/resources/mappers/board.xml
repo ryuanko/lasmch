@@ -13,9 +13,9 @@
         </if>
         HIT,
         ETC,
-        DATE_FORMAT(CREATE_DT, '%Y-%m-%d') AS CREATE_DT,
+        DATE_FORMAT(CREATE_DT, '%Y-%m-%d %H:%i') AS CREATE_DT,
         CREATE_NM,
-        DATE_FORMAT(UPDATE_DT, '%Y-%m-%d') AS UPDATE_DT,
+        DATE_FORMAT(UPDATE_DT, '%Y-%m-%d %H:%i') AS UPDATE_DT,
         UPDATE_NM,
         IFNULL((SELECT COUNT(1) FROM T_BOARD_FILE WHERE SEQ_ID = A.SEQ_ID AND TYPE_C = A.TYPE_C), 0) AS  FILE_CNT
     FROM T_BOARD A
@@ -30,7 +30,10 @@
       AND CREATE_DT BETWEEN STR_TO_DATE(CONCAT(#{str_dt},'0000'), '%Y-%m-%d%H%i') AND STR_TO_DATE(CONCAT(#{end_dt},'2359'), '%Y-%m-%d%H%i')
     </if>
     <if test="type_c != null and type_c.trim() != ''">
-      AND type_c = #{type_c}
+      AND TYPE_C = #{type_c}
+    </if>
+    <if test="img_mgmt != null and img_mgmt.trim() != ''">
+      AND TYPE_C != 'CHN'
     </if>
     ORDER BY CREATE_DT DESC
   </sql>
@@ -93,9 +96,18 @@
   <select id="fileSelect" parameterType="Map" resultType="com.lasmch.board.domain.FileInfo">
     SELECT
       SEQ_ID, TYPE_C, FILE_NAME, FILE_S3_KEY,
-      IF(ROUND(SIZE_N / 1024, 0) = 0, 1, ROUND(SIZE_N / 1024, 0)) AS SIZE_N
+      IF(ROUND(SIZE_N / 1024, 0) = 0, 1, ROUND(SIZE_N / 1024, 0)) AS SIZE_N,
+      FILE_SEQ_ID
     FROM
       T_BOARD_FILE
+    WHERE SEQ_ID = #{seq_id}
+    AND TYPE_C = #{type_c}
+    ORDER BY FILE_SEQ_ID ASC
+  </select>
+
+  <select id="getMaxFileSeqId" parameterType="Map" resultType="int">
+    SELECT MAX(IFNULL(FILE_SEQ_ID, 0)) + 1 AS SEQ_ID
+    FROM T_BOARD_FILE
     WHERE SEQ_ID = #{seq_id}
     AND TYPE_C = #{type_c}
   </select>
@@ -103,10 +115,10 @@
   <!-- 파일 Insert-->
   <insert id="fileInsert" parameterType="Map">
     INSERT INTO T_BOARD_FILE
-      (SEQ_ID, TYPE_C, FILE_NAME, FILE_S3_KEY, SIZE_N)
+      (SEQ_ID, TYPE_C, FILE_NAME, FILE_SEQ_ID, FILE_S3_KEY, SIZE_N)
     VALUES
     (
-     #{seq_id}, #{type_c}, #{file_name}, #{file_s3_key}, #{size_n}
+     #{seq_id}, #{type_c}, #{file_name}, #{file_seq_id}, #{file_s3_key}, #{size_n}
     )
   </insert>
 

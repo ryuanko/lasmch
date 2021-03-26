@@ -1,0 +1,29 @@
+{{#partial "visual"}}
+<div class="visual title"></div>
+{{/partial}}
+{{#partial "content"}}
+<div id="container">
+    <div class="content-wrap">
+        <img src="/assets/img/temp/album.jpg" style="width: 100%">
+    </div>
+    <!-- //content-wrap -->
+</div>
+{{/partial}}
+
+{{#partial "javascript"}}
+<script >
+    new Vue({
+        el: '#container',
+        data: {
+            temp: {{json temp}},
+            params: {}
+        },
+        methods: {
+        },
+        mounted: function () {
+        }
+    })
+</script>
+{{/partial}}
+
+{{> layout }}

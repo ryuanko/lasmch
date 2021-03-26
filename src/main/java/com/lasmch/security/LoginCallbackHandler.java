@@ -1,6 +1,6 @@
 package com.lasmch.security;
 
-import com.lasmch.adm.usermgmt.dao.UserMgmtDao;
+import com.lasmch.admmgmt.usermgmt.dao.UserMgmtDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

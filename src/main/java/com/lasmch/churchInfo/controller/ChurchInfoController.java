@@ -69,8 +69,9 @@ public class ChurchInfoController {
         boardDao.setHit(params);
 
         Board temp = (Board)boardDao._view(params);
-        temp.setDescription(HtmlUtils.htmlEscape(temp.getDescription()));
-
+        if (temp.getDescription() != null  && !temp.getDescription().equals("")) {
+            temp.setDescription(HtmlUtils.htmlEscape(temp.getDescription()));
+        }
         ModelAndView mv = new ModelAndView("churchInfo/church_view");
 
         List<FileInfo> file_list =  boardDao.fileSelect(params);

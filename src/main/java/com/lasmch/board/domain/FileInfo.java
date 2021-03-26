@@ -24,12 +24,14 @@ public class FileInfo {
   @JsonProperty("file_s3_key")
   private String fileS3Key;
 
+  @JsonProperty("file_seq")
+  private String fileSeq;
+
   @JsonProperty("size_n")
   private Long sizeN;
 
   @JsonProperty("file_s3_url")
   private URL fileS3Url;
-
 
   @JsonProperty("delfile")
   private List<String> delfile;
