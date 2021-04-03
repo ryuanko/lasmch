@@ -1,6 +1,6 @@
 {{#partial "visual"}}
 <div class="visual title">
-    <h2>교육부</h2>
+    <h2>교회앨범</h2>
 </div>
 {{/partial}}
 
@@ -31,43 +31,18 @@
     <!-- //search-area -->
 
     <div class="content-wrap">
-        <div class="tbl-wrap">
-            <table class="board-list">
-                <caption>BOARD LIST</caption>
-                <colgroup>
-                    <col style="width: auto;">
-                    <col style="width: 16%;">
-                    <col style="width: 13%;">
-                    <col style="width: 11%;">
-                </colgroup>
-                <thead>
-                <tr>
-                    <th scope="col">Subject</th>
-                    <th scope="col">name</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Read</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="i in list">
-                    <td class="subject cp" @click="commonFormSubmit(base_url+'/view', i, keywords)">
-                        <a>
-                            <span v-text="i.title"></span>
-                        </a>
-                    </td>
-                    <td v-text="i.update_nm"></td>
-                    <td v-text="i.create_dt"></td>
-                    <td class="read" v-text="i.hit"></td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="tbl-wrap album">
+            <div class="cp" v-for="i in list" @click="commonFormSubmit(base_url+'/view', i, keywords)">
+              <img :src="i.file_s3_url">
+              <div class="album-title" v-text="i.title +' '+ i.etc"></div>
+            </div>
         </div>
         <!-- //tbl-wrap -->
 
         {{> pager_post }}
         <!-- //pagenate -->
-        <p class="btn-wrap btn-write">
-            <a class="btn cp" :href="base_url + '/write'">WRITE</a>
+        <p v-if="!_.isEmpty(session) && session.userDetail.auth === 'SM'" class="btn-wrap btn-write">
+            <a class="btn cp" :href="base_url + '/adm-write'">WRITE</a>
         </p>
     </div>
     <!-- //content-wrap -->
@@ -91,7 +66,7 @@
             str_dt: '',
             end_dt: '',
     },
-    base_url: "/board",
+    base_url: "/album",
     },
     methods: {
         // option 변경시 초기화

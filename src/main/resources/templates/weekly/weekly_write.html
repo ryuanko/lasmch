@@ -25,7 +25,7 @@
                         <div class="editor-area" id="editor">
                             <!--cross editor-->
                             <div id="crossParent" class="container">
-                                <textarea id="desc" v-model="params.description"></textarea>
+                                <textarea id="smart-editor-desc" v-model="params.description"></textarea>
                             </div>
                         </div>
                     </td>
@@ -86,6 +86,9 @@
                     }
                 })
                 // ------------------------------
+
+                this.params.description = getSmartEditorShowHTML()
+
                 _.keys(this.params).forEach(function(i){
                     if (!_.isEmpty(self.params[i])) {
                         formData.append(i, self.params[i])

@@ -17,6 +17,7 @@
         CREATE_NM,
         DATE_FORMAT(UPDATE_DT, '%Y-%m-%d %H:%i') AS UPDATE_DT,
         UPDATE_NM,
+        CREATE_ID,
         IFNULL((SELECT COUNT(1) FROM T_BOARD_FILE WHERE SEQ_ID = A.SEQ_ID AND TYPE_C = A.TYPE_C), 0) AS  FILE_CNT
     FROM T_BOARD A
     where 1=1
@@ -32,8 +33,8 @@
     <if test="type_c != null and type_c.trim() != ''">
       AND TYPE_C = #{type_c}
     </if>
-    <if test="img_mgmt != null and img_mgmt.trim() != ''">
-      AND TYPE_C != 'CHN'
+    <if test="code_c != null and code_c.trim() != ''">
+      AND TYPE_C IN ('CHI', 'EMP', 'MSD','PST', 'WHT')
     </if>
     ORDER BY CREATE_DT DESC
   </sql>
@@ -74,6 +75,7 @@
       ETC = #{etc},
       UPDATE_DT = NOW(),
       UPDATE_NM = #{update_nm},
+      UPDATE_ID = #{update_id}
     </trim>
     WHERE SEQ_ID = #{seq_id}
     AND TYPE_C = #{type_c}
@@ -81,8 +83,9 @@
 
   <insert id="_insert" parameterType="Map">
   INSERT INTO T_BOARD
-  ( SEQ_ID, TYPE_C, TITLE, DESCRIPTION, HIT, ETC, CREATE_DT, CREATE_NM, UPDATE_DT, UPDATE_NM)
-  VALUES (#{seq_id}, #{type_c}, #{title}, #{description}, 0, #{etc, jdbcType=VARCHAR}, NOW(), #{update_nm},  NOW(), #{update_nm});
+  ( SEQ_ID, TYPE_C, TITLE, DESCRIPTION, HIT, ETC, CREATE_DT, CREATE_NM, UPDATE_DT, UPDATE_NM, CREATE_ID, UPDATE_ID)
+  VALUES (#{seq_id}, #{type_c}, #{title}, #{description}, 0, #{etc, jdbcType=VARCHAR}, NOW(), #{update_nm},  NOW(), #{update_nm},
+          #{update_id}, #{update_id});
   </insert>
 
   <delete id="_delete" parameterType="String">
@@ -103,6 +106,15 @@
     WHERE SEQ_ID = #{seq_id}
     AND TYPE_C = #{type_c}
     ORDER BY FILE_SEQ_ID ASC
+  </select>
+
+  <select id="fileSelectMin" parameterType="Map" resultType="com.lasmch.board.domain.FileInfo">
+    SELECT
+      FILE_S3_KEY,  MIN(FILE_SEQ_ID)
+    FROM
+      T_BOARD_FILE
+    WHERE SEQ_ID = #{seq_id}
+    AND TYPE_C = #{type_c}
   </select>
 
   <select id="getMaxFileSeqId" parameterType="Map" resultType="int">

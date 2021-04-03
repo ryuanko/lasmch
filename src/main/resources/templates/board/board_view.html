@@ -1,6 +1,6 @@
 {{#partial "visual"}}
 <div class="visual title">
-    <h2>BOARD view</h2>
+    <h2>교육부</h2>
 </div>
 {{/partial}}
 
@@ -17,15 +17,20 @@
             </div>
             <div class="view-title">
                 <p class="subject">
-                    <span class="cate" v-text="params.youtube_type"></span>
-                    <span v-text="params.youtube_title"></span>
+                    <span class="cate" v-text="params.type_c"></span>
+                    <span v-text="params.title"></span>
                 </p>
 
                 <p class="view-info">
-                    <span>{{params.update_name}}</span>
+                    <span>{{params.update_nm}}</span>
                     <span>{{params.update_dt}}</span>
-                    <span class="read">{{params.read_cnt}}</span>
+                    <span class="read">{{params.hit}}</span>
                 </p>
+            </div>
+            <div class="view-file">
+                <template v-for="i in file_list">
+                    <a :href="i.file_s3_url" target="_blank">{{i.file_name}}</a>
+                </template>
             </div>
             <!-- //view-title -->
 
@@ -33,17 +38,10 @@
             <!-- //view-file -->
 
             <div class="view-cont">
-                <iframe :src="params.youtube_url"
-                        height="500px"
-                        width="100%"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen>
-                </iframe>
-                <div v-html="_.unescape(params.comment)"></div>
-                <p class="board-btns" v-if="!_.isEmpty(session) && session.userDetail.auth === 'SM'">
-                    <button type="button" @click="youtubeModify()">Modify</button>
-                    <button type="button" @click="youtubeDelete()">Delete</button>
+                <div v-html="_.unescape(params.description)"></div>
+                <p class="board-btns" v-if="!_.isEmpty(session) && (session.username === params.create_id || session.userDetail.auth === 'SM')">
+                    <button type="button" @click="boardModify()">Modify</button>
+                    <button type="button" @click="boardDelete()">Delete</button>
                 </p>
             </div>
             <!-- //view-cont -->
@@ -71,21 +69,26 @@
             session: {{json session}},
     params: {{json params}},
     keyword: {{json keyword}},
+    file_list: {{json file_list}},
     base_url: "/board",
     },
     computed: {
     },
     methods: {
+        fileDownload: function(origin_name,filekey){
+            commonFormSubmit("/common/Download", {"filekey":filekey,"origin_name":origin_name,"worktype":"TEST"})
+        },
         // Modify 이동
-        youtubeModify: function () {
-            commonFormSubmit(this.base_url+'/adm-write', this.params, this.keyword) // common.js
+        boardModify: function () {
+            commonFormSubmit(this.base_url+'/write', this.params, this.keyword) // common.js
         },
         // 삭제
-        youtubeDelete: function () {
+        boardDelete: function () {
             const self = this
             alertPopup('정말 삭제하시겠습니까?', 'confirm').then(function(){
-                var url = self.base_url + self.params.seq_id
-                axios.delete(url).then(function(res){
+                loading()
+                var url = self.base_url+ "/delete/" + self.params.seq_id
+                axios.delete(url, {params: self.params}).then(function(res){
                     if (res.status == 200) {
                         setTimeout(function () {
                             alertPopup('삭제되었습니다.').then(function(){
@@ -105,4 +108,4 @@
     })
 </script>
 {{/partial}}
-{{> layout vuejs=true namo=true}}
+{{> layout }}

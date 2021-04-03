@@ -50,8 +50,7 @@ public class ImgMgmtController {
     @PostMapping
     @ResponseBody
     public ModelAndView index_post(@RequestParam Map<String, Object> params) throws Exception {
-        params.put("img_mgmt", "Y");
-
+        params.put("code_c", "IMG-MGMT");
         List<TypeMgmt> type_c_list = typeMgmtDao._select(params);
 
         return boardService.select(params).asModel("admmgmt/imgmgmt/imgmgmt_list").addObject("type_c_list", type_c_list);
@@ -93,7 +92,7 @@ public class ImgMgmtController {
         view_params.setTypeC("");
         List<FileInfo> file_list = new ArrayList<>();
 
-        params.put("img_mgmt", "Y");
+        params.put("code_c", "IMG-MGMT");
         List<TypeMgmt> type_c_list = typeMgmtDao._select(params);
 
         if (params.get("seq_id") != null && !params.get("seq_id").equals("")) {
@@ -113,6 +112,7 @@ public class ImgMgmtController {
     public ResponseEntity<?> update(@RequestParam Map<String, Object> params, FileInfo files, @AuthenticationPrincipal UserPrincipal principal) throws Exception {
 
         params.put("update_nm", principal.getNickname());
+        params.put("update_id", principal.getUsername());
 
         if (params.get("seq_id") != null && !params.get("seq_id").equals("")) {
             boardService.fileupdate(params, files);

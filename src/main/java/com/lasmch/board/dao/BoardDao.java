@@ -16,6 +16,7 @@ public interface BoardDao extends IDaoProvider {
 
     Integer getMaxFileSeqId(Map<String,Object> params);
     List<FileInfo> fileSelect (Map<String, Object> map);
+    FileInfo fileSelectMin (Map<String, Object> map);
     int fileInsert(Map<String,Object> params);
     int fileDelete(Map<String,Object> params);
 

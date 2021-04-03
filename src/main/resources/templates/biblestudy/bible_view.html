@@ -1,29 +1,79 @@
 {{#partial "visual"}}
-<div class="visual title"></div>
-{{/partial}}
-{{#partial "content"}}
-<div id="container">
-    <div class="content-wrap">
-        <img src="/assets/img/temp/bible_study.jpg" style="width: 100%">
-    </div>
-    <!-- //content-wrap -->
+<div class="visual title">
+    <h2>훈련사역</h2>
 </div>
 {{/partial}}
 
+{{#partial "content"}}
+<div id="container">
+    <input type="text" style="display: none;"> <!-- watermark 를 위한 임의의 input -->
+    <div class="content-wrap">
+        <div v-if="file_list.length > 0" style="text-align: center">
+            <template v-for="i in file_list">
+                <img class="church-info-img-pc" :src="i.file_s3_url">
+                <img class="church-info-img-mb" :src="i.file_s3_url">
+            </template>
+        </div>
+        <div class="board-view" v-if="!_.isEmpty(_.unescape(params.description))"> <!-- watermark 가 들어가야할 부분에 class="watermark" 추가 -->
+            <div class="view-cont">
+                <div v-html="_.unescape(params.description)"></div>
+            </div>
+            <!-- //view-cont -->
+        </div>
+    </div>
+    <!-- //content-wrap -->
+
+</div>
+<!-- //container -->
+{{/partial}}
+
 {{#partial "javascript"}}
-<script >
-    new Vue({
+<script>
+    var app = new Vue({
         el: '#container',
+        components: {},
+        mixins: [commonMixin], //  vue common mixin js
         data: {
-            temp: {{json temp}},
-            params: {}
+            session: {{json session}},
+    params: {{json params}},
+    keyword: {{json keyword}},
+    file_list: {{json file_list}},
+    base_url: "/church",
+    },
+    computed: {
+    },
+    methods: {
+        fileDownload: function(origin_name,filekey){
+            commonFormSubmit("/common/Download", {"filekey":filekey,"origin_name":origin_name,"worktype":"TEST"})
         },
-        methods: {
+        // Modify 이동
+        churchModify: function () {
+            commonFormSubmit(this.base_url+'/adm-write', this.params, this.keyword) // common.js
         },
-        mounted: function () {
+        // 삭제
+        churchDelete: function () {
+            const self = this
+            alertPopup('정말 삭제하시겠습니까?', 'confirm').then(function(){
+                loading()
+                var url = self.base_url+ "/adm-delete/" + self.params.seq_id
+                axios.delete(url, {params: self.params}).then(function(res){
+                    if (res.status == 200) {
+                        setTimeout(function () {
+                            alertPopup('삭제되었습니다.').then(function(){
+                                commonFormSubmit(self.base_url, {} , self.keyword)
+                            })
+                        }, 300)
+                    }
+                })
+            }).catch(function(err){})
+        },
+        init: function () {
         }
+    },
+    mounted: function () {
+        console.log(this.params)
+    },
     })
 </script>
 {{/partial}}
-
 {{> layout }}

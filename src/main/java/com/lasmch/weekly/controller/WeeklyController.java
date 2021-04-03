@@ -116,6 +116,7 @@ public class WeeklyController {
     public ResponseEntity<?> update(@RequestParam Map<String, Object> params, FileInfo files, @AuthenticationPrincipal UserPrincipal principal) throws Exception {
 
         params.put("update_nm", principal.getNickname());
+        params.put("update_id", principal.getUsername());
 
         if (params.get("seq_id") != null && !params.get("seq_id").equals("")) {
             boardService.fileupdate(params, files);

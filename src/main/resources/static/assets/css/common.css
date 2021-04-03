@@ -1584,7 +1584,7 @@ a.link-txt:hover {
 	#gnb .myinfo .user {
 		display: none;
 	}
-	.main #gnb .myinfo .user {
+	#gnb .myinfo .user {
 		display: inline-block;
 		width: 32px;
 		height: 32px;

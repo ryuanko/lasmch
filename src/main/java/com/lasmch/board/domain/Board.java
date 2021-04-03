@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.net.URL;
+
 @Data
 @NoArgsConstructor
 public class Board {
@@ -37,5 +39,14 @@ public class Board {
 
     @JsonProperty("update_nm")
     private String updateNm;
+
+    @JsonProperty("create_id")
+    private String createId;
+
+    @JsonProperty("update_id")
+    private String updateId;
+
+    @JsonProperty("file_s3_url")
+    private URL fileS3Url;
 
 }

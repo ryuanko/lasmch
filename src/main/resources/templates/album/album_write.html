@@ -1,6 +1,6 @@
 {{#partial "visual"}}
 <div class="visual title">
-    <h2>교회 소식</h2>
+    <h2>교회앨범</h2>
 </div>
 {{/partial}}
 
@@ -15,6 +15,10 @@
                     <col style="width: auto;">
                 </colgroup>
                 <tbody>
+                <tr>
+                    <th scope="row"><label for="album-dt">촬영날짜</label></th>
+                    <td><input type="text" id="album-dt" class="calendar" title="시작날짜" v-model="params.etc"/></td>
+                </tr>
                 <tr>
                     <th scope="row"><label for="subject">Title</label></th>
                     <td><input type="text" id="subject" class="subject" placeholder="제목을 입력하세요." v-model="params.title"></td>
@@ -65,7 +69,7 @@
             params: {{json params}},
             keyword: {{json keyword}},
             file_list: {{json file_list}},
-            base_url: '/church'
+            base_url: '/album'
         },
         methods: {
             goBack: function () {

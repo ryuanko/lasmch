@@ -31,6 +31,9 @@ a, .cp{cursor: pointer}
 .visual .slider .slick-slide {opacity: 1}
 .slick-slide img {height: 500px; width: 1200px; margin: 0 auto; border-radius: 20px}
 .visual.title {background-image: linear-gradient(139deg, #9e3d6f 18%, #8ef919 100%)}
+
+.visual.title.blue {background-image: linear-gradient(154deg, #2a63a0 14%, #02c7d2 92%)}
+
 .main .visual h2.fixed {display: none}
 
 /* datepicker 년도 날짜 선택시 */
@@ -121,6 +124,15 @@ a, .cp{cursor: pointer}
 .worship-time-img-mb { display: none;}
 
 
+/* ---- 교회 앨범 ---- */
+.content-wrap .album {text-align: center;}
+.content-wrap .album > div {display: inline-block; margin-right: 20px; margin-bottom: 10px}
+.content-wrap .album > div img {height: 150px; box-shadow: 8px 5px 5px #afafaf; border-radius: 10px}
+.content-wrap .album .album-title {text-align: center;}
+
+.content-wrap .album-view {text-align: center; margin-top: 20px}
+.content-wrap .album-view > div {display: inline-block; margin-right: 20px; margin-bottom: 10px}
+.content-wrap .album-view > div img {min-height: 150px; max-height: 400px; box-shadow: 8px 5px 5px #afafaf; border-radius: 10px}
 
 
 /* pc */

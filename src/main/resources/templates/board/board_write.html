@@ -1,6 +1,6 @@
 {{#partial "visual"}}
 <div class="visual title">
-    <h2>예배 영상</h2>
+    <h2>교육부</h2>
 </div>
 {{/partial}}
 
@@ -16,26 +16,16 @@
                 </colgroup>
                 <tbody>
                 <tr>
-                    <th scope="row"><label for="category">Category</label></th>
-                    <td>
-                        <select id="category" v-model="params.youtube_type" >
-                            <option value="">선택</option>
-                            <option value="S">주일예배</option>
-                            <option value="F">금요예배</option>
-                        </select>
-                    </td>
+                    <th scope="row"><label for="subject">Title</label></th>
+                    <td><input type="text" id="subject" class="subject" placeholder="제목을 입력하세요." v-model="params.title"></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="subject">Subject</label></th>
-                    <td><input type="text" id="subject" class="subject" placeholder="제목을 입력하세요." v-model="params.youtube_title"></td>
-                </tr>
-                <tr>
-                    <th scope="row">Contents</th>
+                    <th scope="row">Description</th>
                     <td>
                         <div class="editor-area" id="editor">
                             <!--cross editor-->
                             <div id="crossParent" class="container">
-                                <textarea id="desc" v-model="params.comment"></textarea>
+                                <textarea id="smart-editor-desc" v-model="params.description"></textarea>
                             </div>
                         </div>
                     </td>
@@ -46,6 +36,7 @@
                         <fileupload-template
                                 ref="fileTemplate"
                                 :params="params"
+                                :list="file_list"
                         ></fileupload-template>
                     </td>
                 </tr>
@@ -72,74 +63,58 @@
         mixins: [commonMixin], //  vue common mixin js
         data: {
             params: {{json params}},
-    keyword: {{json keyword}},
-    base_url: '/church'
-    },
-    methods: {
-        goBack: function () {
-            commonFormSubmit(this.base_url, {} , this.keyword)
+            keyword: {{json keyword}},
+            file_list: {{json file_list}},
+            base_url: '/board'
         },
-        setData: function () {
-            if (!this.valid()) return
+        methods: {
+            goBack: function () {
+                commonFormSubmit(this.base_url, {} , this.keyword)
+            },
+            setData: function () {
+                const self = this
+                if (!this.valid()) return
 
-            var formData = new FormData();
-            // ------ 파일 첨부 부분 -----------
-            // component에있는 파일 append
-            this.$refs.fileTemplate.$refs.uploadFile.forEach(function(i) {
-                if (i.files.length > 0) {
-                    formData.append("upfile", i.files[0]);
-                }
-            })
-            // ------------------------------
-            _.keys(data).forEach(function(i){
-                formData.append(i, data[i])
-            })
-
-            const self = this
-            alertPopup("저장하시겠습니까?", 'confirm').then(function(){
-                axios.post(self.base_url,formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(function(res){
-                    if (res.status == 200) {
-                        app.goBack()
+                var formData = new FormData();
+                // ------ 파일 첨부 부분 -----------
+                // component에있는 파일 append
+                this.$refs.fileTemplate.$refs.uploadFile.forEach(function(i) {
+                    if (i.files.length > 0) {
+                        formData.append("upfile", i.files[0]);
                     }
                 })
-            }).catch(function(err){})
-        },
-        valid: function () {
-            var msg = ''
+                // ------------------------------
 
-            if (_.isEmpty(_.trim(this.params.youtube_url))) {
-                msg = 'URL를 입력해 주세요.'
-            } else if (_.isEmpty(_.trim(this.params.youtube_title))) {
-                msg = 'Subject를 입력해 주세요.'
-            } else if (_.isEmpty(this.params.youtube_type)) {
-                msg = 'Category 입력해 주세요.'
-            }
+                this.params.description = getSmartEditorShowHTML()
 
-            if (msg != '') {
-                alertPopup(msg)
-                return false
-            }
-            return true
-        },
-        init: function () {
-            if (this.params == null) {
-                this.params = {
-                    youtube_title: '',
-                    youtube_url: '',
-                    youtube_type: '',
-                    comment: ''
+                _.keys(this.params).forEach(function(i){
+                    if (!_.isEmpty(self.params[i])) {
+                        formData.append(i, self.params[i])
+                    }
+                })
+
+                alertPopup("저장하시겠습니까?", 'confirm').then(function(){
+                    loading()
+                    axios.post(self.base_url+'/update',formData, {headers: {'Content-Type': 'multipart/form-data'}}).then(function(res){
+                        if (res.status == 200) {
+                            self.goBack()
+                        }
+                    })
+                }).catch(function(err){})
+            },
+            valid: function () {
+                if (_.isEmpty(_.trim(this.params.title))) {
+                    alertPopup('Title 입력해 주세요.')
+                    return false
                 }
-            }
-        }
-    },
-    created() {
-        this.init()
-    },
-    mounted: function () {
-        setDatepicker()
-    },
+
+                return true
+            },
+        },
+        mounted: function () {
+        },
     });
 </script>
 {{/partial}}
 
-{{> layout vuejs=true namo=true }}
+{{> layout }}

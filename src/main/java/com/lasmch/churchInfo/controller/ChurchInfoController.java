@@ -17,6 +17,7 @@ import org.springframework.web.util.HtmlUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,20 @@ public class ChurchInfoController {
     @GetMapping("/info")
     @ResponseBody
     public ModelAndView info() throws Exception {
-        return new ModelAndView("churchInfo/church_info_view");
+        Map<String, Object> params = new HashMap<>();
+        params.put("seq_id", "10");
+        params.put("type_c", "CHI");
+        Board temp = (Board)boardDao._view(params);
+        List<FileInfo> file_list =  boardDao.fileSelect(params);
+
+        file_list.stream().forEach(i-> {
+            i.setFileS3Url(awsClient.getSignedUrl("LASMCH/"+ i.getFileS3Key()));
+        });
+
+        ModelAndView mv = new ModelAndView("churchInfo/church_info_view");
+        mv.addObject("file_list", file_list);
+        mv.addObject("params", temp);
+        return mv;
     }
 
 
@@ -118,6 +132,7 @@ public class ChurchInfoController {
     public ResponseEntity<?> update(@RequestParam Map<String, Object> params, FileInfo files, @AuthenticationPrincipal UserPrincipal principal) throws Exception {
 
         params.put("update_nm", principal.getNickname());
+        params.put("update_id", principal.getUsername());
 
         if (params.get("seq_id") != null && !params.get("seq_id").equals("")) {
             boardService.fileupdate(params, files);

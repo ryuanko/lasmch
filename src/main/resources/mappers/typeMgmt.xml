@@ -6,8 +6,8 @@
         SELECT TYPE_C, DESCRIPTION FROM T_TYPE_C_MGMT
         where 1=1
 
-        <if test="img_mgmt != null and img_mgmt.trim() != ''">
-            AND TYPE_C != 'CHN'
+        <if test="code_c != null and code_c.trim() != ''">
+            AND CODE_C  = #{code_c}
         </if>
 
         ORDER BY TYPE_C ASC

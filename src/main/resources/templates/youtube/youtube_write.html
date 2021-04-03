@@ -30,12 +30,12 @@
                     <td><input type="text" id="subject" class="subject" placeholder="제목을 입력하세요." v-model="params.youtube_title"></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="subject">URL</label></th>
+                    <th scope="row"><label for="url">URL</label></th>
                     <td><input type="text" id="url" class="subject" placeholder="URL를 입력하세요." v-model="params.youtube_url"></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="subject">영상날짜</label></th>
-                    <td><input type="text" class="calendar" title="시작날짜" v-model="params.youtube_dt"/></td>
+                    <th scope="row"><label for="youtube-dt">영상날짜</label></th>
+                    <td><input type="text" id="youtube-dt" class="calendar" title="시작날짜" v-model="params.youtube_dt"/></td>
                 </tr>
                 <tr>
                     <th scope="row">Contents</th>
@@ -43,7 +43,7 @@
                         <div class="editor-area" id="editor">
                             <!--cross editor-->
                             <div id="crossParent" class="container">
-                                <textarea id="desc" v-model="params.comment"></textarea>
+                                <textarea id="smart-editor-desc" v-model="params.comment"></textarea>
                             </div>
                         </div>
                     </td>
@@ -79,6 +79,9 @@
             setData: function () {
                 if (!this.valid()) return
                 const self = this
+
+                this.params.comment = getSmartEditorShowHTML()
+
                 alertPopup("저장하시겠습니까?", 'confirm').then(function(){
                     axios.put('/youtube', self.params).then(function(res){
                         if (res.status == 200) {

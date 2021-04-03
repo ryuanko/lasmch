@@ -3,10 +3,11 @@
         <!--<img src="/assets/img/lasmch/logo_c.png">-->
         성문교회</a></h2>
     <!-- ------------------ slider ------------------ -->
-    <div class="slider2">
-        <div>
+    <div class="slider2" id="slider2">
+        <div v-for="i in main_slid_list">
             <a >
-                <img src="/assets/img/lasmch/home_3.jpg" class="slider-img">
+                <img :src="i.file_s3_url" class="slider-img">
+<!--                <img src="/assets/img/lasmch/home_3.jpg" class="slider-img">-->
             </a>
         </div>
         <div>
