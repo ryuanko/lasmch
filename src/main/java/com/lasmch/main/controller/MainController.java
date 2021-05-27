@@ -55,9 +55,19 @@ public class MainController {
             i.setFileS3Url(awsClient.getSignedUrl("LASMCH/"+ i.getFileS3Key()));
         });
 
+        params2 = new HashMap<>();
+        params2.put("seq_id", "11");
+        params2.put("type_c", "PST");
+        FileInfo minister_file =  boardDao.fileSelect(params2).stream().findFirst().orElse(new FileInfo());
+
+
+        Board minister_params = (Board)boardDao._view(params2);
+        minister_params.setFileS3Url(awsClient.getSignedUrl("LASMCH/"+ minister_file.getFileS3Key()));
+
         mv.addObject("main_slid_list", file_list);
         mv.addObject("chn_list", boardDao._select(params));
         mv.addObject("youtube_list", youtubeDao.mainPageView());
+        mv.addObject("minister_params", minister_params); // 목사님 말씀
         return mv;
     }
 }

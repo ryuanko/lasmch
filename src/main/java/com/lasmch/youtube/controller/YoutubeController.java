@@ -87,8 +87,6 @@ public class YoutubeController {
 
         params.put("update_name", principal.getNickname());
 
-        log.debug("{}", params);
-
         if (params.get("seq_id") != null && !params.get("seq_id").equals("")) {
             ResponseEntity.ok(youtubeDao._update(params));
         } else {

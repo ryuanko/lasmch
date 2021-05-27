@@ -338,6 +338,9 @@ ap
     /* --- 주보 --- */
     .in-edit {overflow:auto;}
 
+    /* ---- 교회 앨범 ---- */
+    .content-wrap .album-view > div img {width: 100%; min-height: 150px; max-height: 400px; box-shadow: 8px 5px 5px #afafaf; border-radius: 10px}
+
 }
 
 /* phone */
