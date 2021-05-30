@@ -21,6 +21,7 @@
             <div class="right">
                 <p class="accent">
                     <template v-if="!_.isEmpty(session) && !is_pwd">
+                        <button class="btn icon" style="margin-right: 10px;" @click="userDelete()">탈퇴</button>
                         <button class="btn icon" style="margin-right: 10px;" @click="is_pwd = true">비밀번호 변경</button>  * 필수 입력
                     </template>
                     <template v-if="!_.isEmpty(session) && is_pwd">
@@ -38,21 +39,21 @@
                     <col style="width: auto;">
                 </colgroup>
                 <tbody>
-                <tr v-if="_.isEmpty(session)">
+                <tr v-if="_.isEmpty(session) || is_write_adm">
                     <th scope="row"><label for="id" class="req">ID</label></th>
                     <td :class="_.isEmpty(params.id)?'error':''">
                         <input type="text" id="id" v-model="params.id" @blur="userChk()">
                         <span class="error-txt" >ID을 정확하게 입력해주세요.</span>
                     </td>
                 </tr>
-                <tr v-if="_.isEmpty(session) || is_pwd">
+                <tr v-if="_.isEmpty(session) || is_pwd || is_write_adm">
                     <th scope="row"><label for="pwd" class="req">비밀번호</label></th>
                     <td :class="_.isEmpty(params.pwd)?'error':''">
                         <input type="password" id="pwd" v-model="params.pwd" >
                         <span class="error-txt">비밀번호를 정확하게 입력해주세요.</span>
                     </td>
                 </tr>
-                <tr v-if="_.isEmpty(session) || is_pwd">
+                <tr v-if="_.isEmpty(session) || is_pwd || is_write_adm">
                     <th scope="row"><label for="pwd2" class="req">비밀번호 확인</label></th>
                     <td :class="_.isEmpty(params.pwd2) || params.pwd != params.pwd2 ?'error':''">
                         <input type="password" id="pwd2" v-model="params.pwd2" >
@@ -122,7 +123,7 @@
 
         <p class="btn-wrap double">
             <a href="/" class="btn border">CANCEL</a>
-            <a v-if="_.isEmpty(session)" class="btn blue" @click="userInsert()">SAVE</a>
+            <a v-if="_.isEmpty(session) || is_write_adm" class="btn blue" @click="userInsert()">SAVE</a>
             <a v-else class="btn blue" @click="userUpdate()">SAVE</a>
         </p>
     </div>
@@ -138,7 +139,8 @@
         data: {
             session: {{json session}},
             params: {{json params}},
-            is_pwd: false
+            is_pwd: false,
+            is_write_adm: {{json is_write_adm}}||false,
         },
         methods: {
             userChk: function() {
@@ -163,7 +165,11 @@
                     axios.post('/user-mgmt/insert', self.params).then(function(res){
                         if (res.status == 200) {
                             alertPopup("회원가입이되었습니다.").then(function(){
-                                location.href = '/login'
+                                if (self.is_write_adm) {
+                                    location.href = '/user-mgmt/adm-list'
+                                } else {
+                                    location.href = '/login'
+                                }
                             })
                         }
                     })
@@ -176,13 +182,29 @@
                 alertPopup("저장하시겠습니까?", 'confirm').then(function(){
                     axios.put('/user-mgmt', self.params).then(function(res){
                         if (res.status == 200) {
-                            alertPopup("개인정보가 변경되었습니다..").then(function(){
+                            alertPopup("개인정보가 변경되었습니다.").then(function(){
                                 if (self.is_pwd) {
                                     location.href = '/login'
                                 } else {
                                     location.reload()
                                 }
 
+                            })
+                        }
+                    })
+                }).catch(function(err){})
+            },
+            userDelete: function () {
+                var self = this
+                alertPopup("정말 탈퇴하시겠습니까?", 'confirm').then(function(){
+                    axios.delete('/user-mgmt/' + self.params.id).then(function(res){
+                        if (res.status == 200) {
+                            alertPopup("탈퇴 되었습니다.").then(function(){
+                                if (self.session.username === self.params.id) {
+                                    location.href = '/logout'
+                                } else {
+                                    location.href = '/user-mgmt/adm-list'
+                                }
                             })
                         }
                     })
@@ -208,6 +230,7 @@
             this.params.email1 = email[0]
             this.params.email2 = _.isEmpty(email[1])? '' : email[1]
             console.log("this.params", this.params)
+            console.log("is_write_adm", this.is_write_adm)
         },
         mounted: function () {
         }

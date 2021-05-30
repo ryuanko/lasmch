@@ -72,7 +72,7 @@ public class BoardService {
                 map.put("type_c", params.get("type_c"));
                 map.put("file_s3_key", i);
                 boardDao.fileDelete(map);
-                // awsClient.delete("LASMCH/"+i);
+                awsClient.delete("LASMCH/"+i);
             });
         }
 

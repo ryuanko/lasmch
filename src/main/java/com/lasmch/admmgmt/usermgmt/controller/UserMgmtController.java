@@ -74,6 +74,15 @@ public class UserMgmtController {
         return mv;
     }
 
+    @GetMapping("/write-adm")
+    @ResponseBody
+    public ModelAndView writeAdm(@AuthenticationPrincipal UserPrincipal principal ) throws Exception {
+        ModelAndView mv = new ModelAndView("admmgmt/usermgmt/usermgmt_view");
+        mv.addObject("params", new UserMgmt());
+        mv.addObject("is_write_adm", true);
+        return mv;
+    }
+
     @GetMapping("/id-chk/{id}")
     @ResponseBody
     public ResponseEntity<?> idChk(@PathVariable String id) throws Exception {
@@ -102,13 +111,13 @@ public class UserMgmtController {
 
     @DeleteMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<?> delete(@RequestBody Map<String, Object> params, @AuthenticationPrincipal UserPrincipal principal) throws Exception {
+    public ResponseEntity<?> delete(@PathVariable String id, @AuthenticationPrincipal UserPrincipal principal) throws Exception {
 
-        if (!principal.getUsername().equals(params.get("id")) && !principal.getUserDetail().getAuth().equals("SM")) {
+        if (!principal.getUsername().equals(id) && !principal.getUserDetail().getAuth().equals("SM")) {
             throw new ValidationFailureException("해당 권한이 없습니다.");
         }
 
-        return ResponseEntity.ok(userMgmtDao._delete(params));
+        return ResponseEntity.ok(userMgmtDao._delete(id));
     }
 
 }
