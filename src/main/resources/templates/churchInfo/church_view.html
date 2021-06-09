@@ -88,7 +88,8 @@
                 alertPopup('정말 삭제하시겠습니까?', 'confirm').then(function(){
                     loading()
                     var url = self.base_url+ "/adm-delete/" + self.params.seq_id
-                    axios.delete(url, {params: self.params}).then(function(res){
+                    var data = {type_c: self.params.type_c, seq_id: self.params.seq_id}
+                    axios.delete(url, {params: data}).then(function(res){
                         if (res.status == 200) {
                             setTimeout(function () {
                                 alertPopup('삭제되었습니다.').then(function(){

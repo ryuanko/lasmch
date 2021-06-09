@@ -41,9 +41,10 @@ public class ChurchInfoController {
     @ResponseBody
     public ModelAndView info() throws Exception {
         Map<String, Object> params = new HashMap<>();
-        params.put("seq_id", "10");
         params.put("type_c", "CHI");
-        Board temp = (Board)boardDao._view(params);
+        Board temp = (Board)boardDao._select(params).stream().findFirst().orElse(new Board());
+        params.put("seq_id", temp.getSeqId());
+
         List<FileInfo> file_list =  boardDao.fileSelect(params);
 
         file_list.stream().forEach(i-> {

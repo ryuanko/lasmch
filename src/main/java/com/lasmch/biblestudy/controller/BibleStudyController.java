@@ -38,9 +38,10 @@ public class BibleStudyController {
     @ResponseBody
     public ModelAndView view() throws Exception {
         Map<String, Object> params = new HashMap<>();
-        params.put("seq_id", "13");
         params.put("type_c", "EMP");
-        Board temp = (Board)boardDao._view(params);
+        Board temp = (Board)boardDao._select(params).stream().findFirst().orElse(new Board());
+        params.put("seq_id", temp.getSeqId());
+
         List<FileInfo> file_list =  boardDao.fileSelect(params);
 
         file_list.stream().forEach(i-> {
