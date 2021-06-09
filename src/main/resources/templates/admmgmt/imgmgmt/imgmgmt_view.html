@@ -29,15 +29,23 @@
             </div>
             <div class="view-file">
                 <template v-for="i in file_list">
-                    <a :href="i.file_s3_url" target="_blank">{{i.file_name}}</a>
+                    <a :href="i.file_s3_url" target="_blank">{{i.file_name}} </a>
                 </template>
             </div>
             <!-- //view-title -->
 
-            {{{{/raw}}}}
+
             <!-- //view-file -->
 
             <div class="view-cont">
+                <div v-if="params.type_c === 'ETC'">
+                    <template v-for="(i, index) in file_list">
+                        <div @dblclick="copy(index, 'url')" >
+                            <img :src="'/common/imageview?img_nm=' + i.file_name + '&s3_key='+ i.file_s3_key" style="width:50px;height:50px;margin-right: 10px;">
+                            <input type="text" :value="i.img_src" :id="'url'+index" style="width:84%; vertical-align:top;font-size:13px;">
+                        </div>
+                    </template>
+                </div>
                 <div v-html="_.unescape(params.description)"></div>
                 <p class="board-btns">
                     <button type="button" @click="imgMgmtModify()">Modify</button>
@@ -51,7 +59,7 @@
         <p class="btn-wrap full">
             <a class="btn cp" @click="commonFormSubmit(base_url, {} , keyword)">LIST VIEW</a>
         </p>
-
+        {{{{/raw}}}}
     </div>
     <!-- //content-wrap -->
 
@@ -75,6 +83,11 @@
         computed: {
         },
         methods: {
+            copy: function(index, type) {
+                $('#'+type+index).select() //복사할 텍스트를 선택
+                document.execCommand("copy") //클립보드 복사 실행
+                alert("element를 복사하였습니다.")
+            },
             fileDownload: function(origin_name,filekey){
                 commonFormSubmit("/common/Download", {"filekey":filekey,"origin_name":origin_name,"worktype":"TEST"})
             },
@@ -102,8 +115,14 @@
             init: function () {
             }
         },
+        created: function() {
+            var self = this
+            _.forEach(this.file_list, function(i){
+                i.img_src = `<img src='/common/imageview?img_nm=${i.file_name}&s3_key=${i.file_s3_key}' style='width:100px;height:100px'>`
+            })
+        },
         mounted: function () {
-            console.log(this.params)
+
         },
     })
 </script>

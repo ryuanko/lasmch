@@ -119,9 +119,6 @@
                 } else if (_.isEmpty(_.trim(this.params.title))) {
                     alertPopup('Title 입력해 주세요.')
                     return false
-                } else if (this.$refs.fileTemplate.$refs.uploadFile.length < 2) {
-                    alertPopup('한개 이상의 파일을 선택해주세요.')
-                    return false
                 }
 
                 return true

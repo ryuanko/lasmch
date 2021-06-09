@@ -199,7 +199,7 @@ a, .cp{cursor: pointer}
 
 /* tablet Portrait */
 @media screen and (max-width: 767px) {
-
+    .editor-img {width:100% !important}
     .main #gnb .myinfo .search {
         background: url(../../assets/img/common/btn_searchW.png) no-repeat 0 0;
         width: 16px;
@@ -213,7 +213,7 @@ a, .cp{cursor: pointer}
     .menu-full {
         width: 70% !important;
     }
-ap
+
     .menu-full .btn-close {
         top: 52px;
         background-size: 20px auto

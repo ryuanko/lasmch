@@ -34,7 +34,7 @@
       AND TYPE_C = #{type_c}
     </if>
     <if test="code_c != null and code_c.trim() != ''">
-      AND TYPE_C IN ('CHI', 'EMP', 'MSD','PST', 'WHT')
+      AND TYPE_C IN ('CHI', 'EMP', 'MSD','PST', 'WHT', 'ETC')
     </if>
     ORDER BY CREATE_DT DESC
   </sql>
