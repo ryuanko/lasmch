@@ -20,14 +20,29 @@
                     <td><input type="text" id="subject" class="subject" placeholder="제목을 입력하세요." v-model="params.title"></td>
                 </tr>
                 <tr>
+                    <th scope="row"><label for="subject">Type</label></th>
+                    <td>
+                        <select v-model="params.etc" @change="etcChange()">
+                            <option value="">Board</option>
+                            <option value="etc">Youtube</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row">Description</th>
                     <td>
-                        <div class="editor-area" id="editor">
+                        <div v-if="!_.isEmpty(params.etc) && params.etc === 'etc'">
+                            <div class="container">
+                                <textarea v-model="params.description" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div v-else class="editor-area" id="editor">
                             <!--cross editor-->
                             <div id="crossParent" class="container">
                                 <textarea id="smart-editor-desc" v-model="params.description"></textarea>
                             </div>
                         </div>
+
                     </td>
                 </tr>
                 <tr>
@@ -71,6 +86,13 @@
             goBack: function () {
                 commonFormSubmit(this.base_url, {} , this.keyword)
             },
+            etcChange:function() {
+                if (_.isEmpty(this.params.etc)) {
+                    this.$nextTick(function() {
+                        setSmartEditor()
+                    })
+                }
+            },
             setData: function () {
                 const self = this
                 if (!this.valid()) return
@@ -85,7 +107,9 @@
                 })
                 // ------------------------------
 
-                this.params.description = getSmartEditorShowHTML()
+                if (_.isEmpty(this.params.etc)) {
+                    this.params.description = getSmartEditorShowHTML()
+                }
 
                 _.keys(this.params).forEach(function(i){
                     if (!_.isEmpty(self.params[i])) {
@@ -112,6 +136,7 @@
             },
         },
         mounted: function () {
+            if (_.isEmpty(this.params.etc)) this.params.etc = ''
         },
     });
 </script>

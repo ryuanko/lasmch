@@ -3,14 +3,15 @@ services:
   nginx:
     build: .
     ports:
-      - "80:80"
+      - "77:77"
   lasmch:
-    image: lasmch
+    image: ryuanko/lasmch
     ports:
       - "8080:8080"
     environment:
       - SPRING_HANDLEBARS_PREFIX=classpath:/templates
-      - SPRING_DATASOURCE_URL=jdbc:mysql://lasmch-db.c9bsg1qpbfy8.ap-northeast-2.rds.amazonaws.com:3306/innodb?validationQuery="select 1"&useSSL=false&serverTimezone=UTC
+      - SPRING_DATASOURCE_URL=jdbc:mysql://lasmch-db.c9bsg1qpbfy8.ap-northeast-2.rds.amazonaws.com:3306/lasmch?characterEncoding=utf8&useSSL=false&autoReconnection=true
       - SPRING_DATASOURCE_DRIVER-CLASS-NAME=com.mysql.cj.jdbc.Driver
       - SPRING_DATASOURCE_USERNAME=sungsoo
       - SPRING_DATASOURCE_PASSWORD=shampoo1
+      - LOGGING_LEVEL_COM.LASMCH=INFO
